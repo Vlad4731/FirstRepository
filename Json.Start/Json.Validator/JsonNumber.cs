@@ -18,7 +18,8 @@ namespace Json
         {
             return double.TryParse(input, out _)
                 && NumberIsBetween(input.IndexOf("."), -1, input.Length - 1)
-                && CountCharacterInString(input, '.') == 1;
+                && CountCharacterInString(input, '.') == 1
+                && !StringContainsLetters(input);
         }
 
         static int CountCharacterInString(string input, char character)
@@ -38,6 +39,19 @@ namespace Json
         static bool NumberIsBetween(int index, int min, int max)
         {
             return index > min && index < max;
+        }
+
+        static bool StringContainsLetters(string input)
+        {
+            foreach (char c in input)
+            {
+                if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
