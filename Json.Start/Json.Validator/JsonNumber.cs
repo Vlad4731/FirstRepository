@@ -9,20 +9,25 @@ namespace Json
             return IsValidIntNumber(input) || IsValidDoubleNumber(input);
         }
 
-        static bool IsValidIntNumber(string input)
+        public static bool IsValidIntNumber(string input)
         {
             return int.TryParse(input, out _) && input.IndexOf("0") == input.Length - 1 ^ input.IndexOf("0") == -1;
         }
 
-        static bool IsValidDoubleNumber(string input)
+        public static bool IsValidDoubleNumber(string input)
         {
             return double.TryParse(input, out _)
-                && NumberIsBetween(input.IndexOf("."), -1, input.Length - 1)
-                && CountCharacterInString(input, '.') == 1
-                && !StringContainsLetters(input);
+                && (NumberIsBetween(input.IndexOf("."), -1, input.Length - 1)
+                && CharacterAppearsOnlyOnce(input, '.'))
+                ^ StringContainsLettersOtherThanExponent(input);
         }
 
-        static int CountCharacterInString(string input, char character)
+        public static bool NumberContainsExponent(string input)
+        {
+            return input.Contains('e') ^ input.Contains('E') && CharacterAppearsOnlyOnce(input, 'e') ^ CharacterAppearsOnlyOnce(input, 'E');
+        }
+
+        public static bool CharacterAppearsOnlyOnce(string input, char character)
         {
             int count = 0;
             foreach (char c in input)
@@ -33,19 +38,37 @@ namespace Json
                 }
             }
 
-            return count;
+            return count == 1;
         }
 
-        static bool NumberIsBetween(int index, int min, int max)
+        public static bool NumberIsBetween(int index, int min, int max)
         {
             return index > min && index < max;
         }
 
-        static bool StringContainsLetters(string input)
+        public static bool StringContainsLettersOtherThanExponent(string input)
+        {
+            return (StringContainsCapitalLetters(input) || StringContainsSmallLetters(input)) && NumberContainsExponent(input);
+        }
+
+        static bool StringContainsSmallLetters(string input)
         {
             foreach (char c in input)
             {
-                if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
+                if (c >= 'a' && c <= 'z')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        static bool StringContainsCapitalLetters(string input)
+        {
+            foreach (char c in input)
+            {
+                if (c >= 'A' && c <= 'Z')
                 {
                     return true;
                 }
