@@ -9,27 +9,32 @@ namespace Json
             return IsValidIntNumber(input) || IsValidDoubleNumber(input);
         }
 
-        public static bool IsValidIntNumber(string input)
+        static bool IsValidIntNumber(string input)
         {
             return int.TryParse(input, out _) && input.IndexOf("0") == input.Length - 1 ^ input.IndexOf("0") == -1;
         }
 
-        public static bool IsValidDoubleNumber(string input)
+        static bool IsValidDoubleNumber(string input)
         {
             return double.TryParse(input, out _)
                 && (NumberContainsValidFractionalDot(input)
                 && !StringContainsLettersOtherThanExponent(input)
-                || NumberContainsExponent(input));
+                || NumberIsValidExponent(input));
         }
 
-        public static bool NumberContainsExponent(string input)
+        static bool NumberIsValidExponent(string input)
+        {
+            return NumberContainsExponent(input) && input.IndexOf('.') < input.IndexOf('e', StringComparison.OrdinalIgnoreCase);
+        }
+
+        static bool NumberContainsExponent(string input)
         {
             return input.Contains('e', StringComparison.CurrentCultureIgnoreCase)
                 && (CharacterAppearsOnlyOnce(input, 'e') && input.IndexOf('e') < input.Length - 1)
                 ^ (CharacterAppearsOnlyOnce(input, 'E') && input.IndexOf('E') < input.Length - 1);
         }
 
-        public static bool CharacterAppearsOnlyOnce(string input, char character)
+        static bool CharacterAppearsOnlyOnce(string input, char character)
         {
             int count = 0;
             foreach (char c in input)
@@ -43,12 +48,12 @@ namespace Json
             return count == 1;
         }
 
-        public static bool NumberIsBetween(int index, int min, int max)
+        static bool NumberIsBetween(int index, int min, int max)
         {
             return index > min && index < max;
         }
 
-        public static bool StringContainsLettersOtherThanExponent(string input)
+        static bool StringContainsLettersOtherThanExponent(string input)
         {
             return StringContainsCapitalLetters(input) || StringContainsSmallLetters(input) && !NumberContainsExponent(input);
         }
@@ -81,7 +86,7 @@ namespace Json
 
         static bool NumberContainsValidFractionalDot(string input)
         {
-            return NumberIsBetween(input.IndexOf("."), -1, input.Length - 1)
+            return NumberIsBetween(input.IndexOf('.'), -1, input.Length - 1)
                 && CharacterAppearsOnlyOnce(input, '.');
         }
     }
