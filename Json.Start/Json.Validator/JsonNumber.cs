@@ -17,14 +17,15 @@ namespace Json
         public static bool IsValidDoubleNumber(string input)
         {
             return double.TryParse(input, out _)
-                && (NumberIsBetween(input.IndexOf("."), -1, input.Length - 1)
-                && CharacterAppearsOnlyOnce(input, '.'))
-                ^ StringContainsLettersOtherThanExponent(input);
+                && (NumberContainsValidFractionalDot(input)
+                && !StringContainsLettersOtherThanExponent(input)
+                || NumberContainsExponent(input));
         }
 
         public static bool NumberContainsExponent(string input)
         {
-            return input.Contains('e') ^ input.Contains('E') && CharacterAppearsOnlyOnce(input, 'e') ^ CharacterAppearsOnlyOnce(input, 'E');
+            return (input.Contains('e') && CharacterAppearsOnlyOnce(input, 'e'))
+                ^ (input.Contains('E') && CharacterAppearsOnlyOnce(input, 'E'));
         }
 
         public static bool CharacterAppearsOnlyOnce(string input, char character)
@@ -48,7 +49,7 @@ namespace Json
 
         public static bool StringContainsLettersOtherThanExponent(string input)
         {
-            return (StringContainsCapitalLetters(input) || StringContainsSmallLetters(input)) && NumberContainsExponent(input);
+            return StringContainsCapitalLetters(input) || StringContainsSmallLetters(input) && !NumberContainsExponent(input);
         }
 
         static bool StringContainsSmallLetters(string input)
@@ -75,6 +76,12 @@ namespace Json
             }
 
             return false;
+        }
+
+        static bool NumberContainsValidFractionalDot(string input)
+        {
+            return NumberIsBetween(input.IndexOf("."), -1, input.Length - 1)
+                && CharacterAppearsOnlyOnce(input, '.');
         }
     }
 }
