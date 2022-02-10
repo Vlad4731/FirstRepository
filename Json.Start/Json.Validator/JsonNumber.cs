@@ -24,8 +24,9 @@ namespace Json
 
         public static bool NumberContainsExponent(string input)
         {
-            return (input.Contains('e') && CharacterAppearsOnlyOnce(input, 'e'))
-                ^ (input.Contains('E') && CharacterAppearsOnlyOnce(input, 'E'));
+            return input.Contains('e', StringComparison.CurrentCultureIgnoreCase)
+                && (CharacterAppearsOnlyOnce(input, 'e') && input.IndexOf('e') < input.Length - 1)
+                ^ (CharacterAppearsOnlyOnce(input, 'E') && input.IndexOf('E') < input.Length - 1);
         }
 
         public static bool CharacterAppearsOnlyOnce(string input, char character)
