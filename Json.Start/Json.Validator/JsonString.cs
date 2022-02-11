@@ -8,12 +8,24 @@ namespace Json
 
         public static bool IsJsonString(string input)
         {
-            return IsDoubleQuoted(input) && !ContainsControlCharacters(input);
+            return IsDoubleQuoted(input)
+                && !ContainsControlCharacters(input)
+                && ContainsValidEscapeCharacters(input);
         }
 
         static bool StringIsEmptyOrNull(string input)
         {
             return input == string.Empty || input == null;
+        }
+
+        static bool ContainsValidEscapeCharacters(string input)
+        {
+            if (!input.Contains('\\'))
+            {
+                return true;
+            }
+
+            return input.IndexOf('\\') != input.Length - 1 && "\" \\ \u002f bfnrtu".Contains(input[input.IndexOf('\\') + 1]);
         }
 
         static bool ContainsControlCharacters(string input)
