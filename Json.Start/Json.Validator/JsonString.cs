@@ -4,7 +4,6 @@ namespace Json
 {
     public static class JsonString
     {
-        private const int TWO = 2;
         private const int HexLength = 5;
 
         public static bool IsJsonString(string input)
@@ -37,13 +36,21 @@ namespace Json
                 return true;
             }
 
-            return input.IndexOf('\\') != input.Length - TWO
+            return input.IndexOf('\\') != input.Length - 1 - 1
                 && "\" \\ \u002f bfnrtu".Contains(input[input.IndexOf('\\') + 1]);
         }
 
         static bool ContainsControlCharacters(string input)
         {
-            return input.Contains('\n') || input.Contains('\r');
+            foreach (char c in input)
+            {
+                if (c < '\u0020')
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         static bool IsDoubleQuoted(string input)
@@ -56,7 +63,7 @@ namespace Json
             return input.Length > 1
                 && input[0] == '\"'
                 && input[^1] == '\"'
-                && CountOccurancesOfCharacter(input, '\"') >= TWO;
+                && CountOccurancesOfCharacter(input, '\"') > 1;
         }
 
         static int CountOccurancesOfCharacter(string input, char ch)
