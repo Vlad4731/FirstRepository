@@ -62,23 +62,7 @@ namespace Json
 
             return input.Length > 1
                 && input[0] == '\"'
-                && input[^1] == '\"'
-                && CountOccurancesOfCharacter(input, '\"') > 1;
-        }
-
-        static int CountOccurancesOfCharacter(string input, char ch)
-        {
-            int count = 0;
-
-            foreach (char c in input)
-            {
-                if (c == ch)
-                {
-                    count++;
-                }
-            }
-
-            return count;
+                && input[^1] == '\"';
         }
     }
 }
