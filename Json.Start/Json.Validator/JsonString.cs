@@ -9,7 +9,7 @@ namespace Json
             return IsDoubleQuoted(input)
                 && !ContainsControlCharacters(input)
                 && ContainsValidEscapeCharacters(input)
-                && !EndsWithUnfinishedHexNumber(input);
+                && IsValidJsonHexNumber(input);
         }
 
         static bool StringIsEmptyOrNull(string input)
@@ -21,12 +21,29 @@ namespace Json
         {
             const int LENGTH_OF_HEXCODE = 5;
 
+            return @input[@input.IndexOf('u') ..].Length < LENGTH_OF_HEXCODE + 1;
+        }
+
+        static bool IsValidJsonHexNumber(string input)
+        {
             if (!@input.Contains(@"\u"))
+            {
+                return true;
+            }
+
+            return JsonHexCanBeParsed(input);
+        }
+
+        static bool JsonHexCanBeParsed(string input)
+        {
+            if (EndsWithUnfinishedHexNumber(@input))
             {
                 return false;
             }
 
-            return @input[@input.IndexOf('u') ..].Length < LENGTH_OF_HEXCODE + 1;
+            string hexNumber = @input.Substring(@input.IndexOf('u') + 1, 4);
+
+            return int.TryParse(hexNumber, System.Globalization.NumberStyles.HexNumber, null, out _);
         }
 
         static bool ContainsValidEscapeCharacters(string input)
