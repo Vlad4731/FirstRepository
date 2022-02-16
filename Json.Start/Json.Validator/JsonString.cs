@@ -4,8 +4,6 @@ namespace Json
 {
     public static class JsonString
     {
-        private const int HexLength = 5;
-
         public static bool IsJsonString(string input)
         {
             return IsDoubleQuoted(input)
@@ -21,12 +19,14 @@ namespace Json
 
         static bool EndsWithUnfinishedHexNumber(string @input)
         {
+            const int LENGTH_OF_HEXCODE = 5;
+
             if (!@input.Contains(@"\u"))
             {
                 return false;
             }
 
-            return @input.Substring(@input.IndexOf('u')).Length < HexLength + 1;
+            return @input[@input.IndexOf('u') ..].Length < LENGTH_OF_HEXCODE + 1;
         }
 
         static bool ContainsValidEscapeCharacters(string input)
@@ -36,8 +36,15 @@ namespace Json
                 return true;
             }
 
-            return input.IndexOf('\\') != input.Length - 1 - 1
+            return !EndsWithReverseSolidus(input)
                 && "\" \\ \u002f bfnrtu".Contains(input[input.IndexOf('\\') + 1]);
+        }
+
+        static bool EndsWithReverseSolidus(string input)
+        {
+            const int offset_of_last_character_in_string = 2;
+
+            return input[^offset_of_last_character_in_string] == '\\';
         }
 
         static bool ContainsControlCharacters(string input)
