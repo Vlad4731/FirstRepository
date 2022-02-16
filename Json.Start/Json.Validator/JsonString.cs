@@ -44,7 +44,7 @@ namespace Json
         {
             foreach (char c in input)
             {
-                if (c < '\u0020')
+                if (c < '\u0020' || (c > '\u007f' && c < '\u009f'))
                 {
                     return true;
                 }
