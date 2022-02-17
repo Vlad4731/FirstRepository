@@ -18,14 +18,17 @@ namespace Json
             return input == string.Empty || input == null;
         }
 
-        static bool JsonHexCanBeParsed(string input)
+        static bool JsonHexIsValid(string input)
         {
-            if (input.Length < HEXLENGTH + 1)
+            foreach (char c in input[1..])
             {
-                return false;
+                if (!"0123456789abcdefABCDEF".Contains(c))
+                {
+                    return false;
+                }
             }
 
-            return int.TryParse(@input.Substring(1, HEXLENGTH), System.Globalization.NumberStyles.HexNumber, null, out _);
+            return true;
         }
 
         static bool ContainsValidEscapeCharacters(string input)
@@ -48,7 +51,7 @@ namespace Json
                     return false;
                 }
 
-                if (input[i] == '\\' && @input[i + 1] == 'u' && (i > @input.Length - HEXLENGTH || !JsonHexCanBeParsed(input.Substring(i + 1, HEXLENGTH + 1))))
+                if (input[i] == '\\' && @input[i + 1] == 'u' && (i > @input.Length - HEXLENGTH || !JsonHexIsValid(@input.Substring(i + 1, HEXLENGTH + 1))))
                 {
                     return false;
                 }
