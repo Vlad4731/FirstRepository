@@ -4,12 +4,13 @@ namespace Json
 {
     public static class JsonString
     {
+        public const int HEXLENGTH = 4;
+
         public static bool IsJsonString(string input)
         {
             return IsDoubleQuoted(input)
                 && !ContainsControlCharacters(input)
-                && ContainsValidEscapeCharacters(input)
-                && IsValidJsonHexNumber(input);
+                && ContainsValidEscapeCharacters(input);
         }
 
         static bool StringIsEmptyOrNull(string input)
@@ -17,57 +18,58 @@ namespace Json
             return input == string.Empty || input == null;
         }
 
-        static bool EndsWithUnfinishedHexNumber(string @input)
-        {
-            const int LENGTH_OF_HEXCODE = 5;
-
-            return @input[@input.IndexOf('u') ..].Length < LENGTH_OF_HEXCODE + 1;
-        }
-
-        static bool IsValidJsonHexNumber(string input)
-        {
-            if (!@input.Contains(@"\u"))
-            {
-                return true;
-            }
-
-            return JsonHexCanBeParsed(input);
-        }
-
         static bool JsonHexCanBeParsed(string input)
         {
-            if (EndsWithUnfinishedHexNumber(@input))
+            if (input.Length < HEXLENGTH + 1)
             {
                 return false;
             }
 
-            string hexNumber = @input.Substring(@input.IndexOf('u') + 1, 4);
-
-            return int.TryParse(hexNumber, System.Globalization.NumberStyles.HexNumber, null, out _);
+            return int.TryParse(@input.Substring(1, HEXLENGTH), System.Globalization.NumberStyles.HexNumber, null, out _);
         }
 
         static bool ContainsValidEscapeCharacters(string input)
         {
-            if (!input.Contains('\\'))
+            if (!@input.Contains('\\') ^ input.Contains("\\\\"))
             {
                 return true;
             }
 
             return !EndsWithReverseSolidus(input)
-                && ValidateEachEscapeCharacter(input);
+                && ValidateEachEscapeCharacter(@input);
         }
 
         static bool ValidateEachEscapeCharacter(string input)
         {
-            foreach (char c in input)
+            for (int i = 0; i < @input.Length - 1; i++)
             {
-                if (c == '\\' && !"\u0022\u005c\u002fbfnrtu".Contains(input[input.IndexOf(c) + 1]))
+                if (input[i] == '\\' && !CheckForEscapeCharacterCodes(input[i + 1]))
+                {
+                    return false;
+                }
+
+                if (input[i] == '\\' && @input[i + 1] == 'u' && (i > @input.Length - HEXLENGTH || !JsonHexCanBeParsed(input.Substring(i + 1, HEXLENGTH + 1))))
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+
+        static bool CheckForEscapeCharacterCodes(char input)
+        {
+            char[] array = { '/', '\"', 'b', 'f', 'n', 'u', 'r', 't' };
+
+            foreach (char c in array)
+            {
+                if (input == c)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         static bool EndsWithReverseSolidus(string input)
