@@ -54,7 +54,20 @@ namespace Json
             }
 
             return !EndsWithReverseSolidus(input)
-                && "\u0022\u005c\u002fbfnrtu".Contains(input[input.IndexOf('\\') + 1]);
+                && ValidateEachEscapeCharacter(input);
+        }
+
+        static bool ValidateEachEscapeCharacter(string input)
+        {
+            foreach (char c in input)
+            {
+                if (c == '\\' && !"\u0022\u005c\u002fbfnrtu".Contains(input[input.IndexOf(c) + 1]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         static bool EndsWithReverseSolidus(string input)
