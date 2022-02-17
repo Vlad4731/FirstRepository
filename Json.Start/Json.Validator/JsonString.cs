@@ -54,7 +54,7 @@ namespace Json
             }
 
             return !EndsWithReverseSolidus(input)
-                && "\" \\ \u002f bfnrtu".Contains(input[input.IndexOf('\\') + 1]);
+                && "\u0022\u005c\u002fbfnrtu".Contains(input[input.IndexOf('\\') + 1]);
         }
 
         static bool EndsWithReverseSolidus(string input)
@@ -68,7 +68,7 @@ namespace Json
         {
             foreach (char c in input)
             {
-                if (c < '\u0020' || (c > '\u007f' && c < '\u009f'))
+                if (c < '\u0020' || input.Contains(@"\u0022 ") || input.Contains(@"\u005c "))
                 {
                     return true;
                 }
