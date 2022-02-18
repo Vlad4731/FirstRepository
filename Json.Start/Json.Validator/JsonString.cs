@@ -80,8 +80,8 @@ namespace Json
             }
 
             return input.Length > 1
-                && input[0] == '\"'
-                && input[^1] == '\"';
+                && input.StartsWith('\"')
+                && input.EndsWith('\"');
         }
     }
 }
