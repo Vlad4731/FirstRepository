@@ -33,20 +33,19 @@ namespace Json
 
         static bool ContainsValidEscapeCharacters(string input)
         {
-            if (!@input.Contains('\\') ^ input.Contains("\\\\"))
+            if (!@input.Contains('\\'))
             {
                 return true;
             }
 
-            return !EndsWithReverseSolidus(input)
-                && ValidateEachEscapeCharacter(@input);
+            return ValidateEachEscapeCharacter(@input);
         }
 
         static bool ValidateEachEscapeCharacter(string input)
         {
             for (int i = 1; i < @input.Length - 1; i++)
             {
-                if (input[i] == '\\' && !"\\\"/bfnurt".Contains(input[i + 1]))
+                if (input[i] == '\\' && (!"\"/bfnurt\\".Contains(input[i + 1]) || i + 1 == input.Length - 1))
                 {
                     return false;
                 }
@@ -58,13 +57,6 @@ namespace Json
             }
 
             return true;
-        }
-
-        static bool EndsWithReverseSolidus(string input)
-        {
-            const int offsetFromEnding = 2;
-
-            return input[^offsetFromEnding] == '\\';
         }
 
         static bool ContainsControlCharacters(string input)
