@@ -43,17 +43,29 @@ namespace Json
 
         static bool ValidateEachEscapeCharacter(string input)
         {
-            for (int i = 1; i < @input.Length - 1; i++)
+            int i = 1;
+            int skip;
+
+            while (i < @input.Length - 1)
             {
+                skip = 1;
+
                 if (input[i] == '\\' && (!"\"/bfnurt\\".Contains(input[i + 1]) || i + 1 == input.Length - 1))
                 {
                     return false;
                 }
 
-                if (input[i] == '\\' && @input[i + 1] == 'u' && (i > @input.Length - HEXLENGTH || !JsonHexIsValid(@input.Substring(i + 1, HEXLENGTH + 1))))
+                if (input.Substring(i, 1 + 1) == @"\\")
+                {
+                    skip++;
+                }
+
+                if (input.Substring(i, 1 + 1) == @"\u" && (i > @input.Length - HEXLENGTH || !JsonHexIsValid(@input.Substring(i + 1, HEXLENGTH + 1))))
                 {
                     return false;
                 }
+
+                i += skip;
             }
 
             return true;
