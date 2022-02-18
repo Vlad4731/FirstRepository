@@ -140,6 +140,12 @@ namespace Json.Facts
             Assert.False(IsJsonString(Quoted(@"abc \u00j2")));
         }
 
+        [Fact]
+        public void ValidateMostHorrificJSONString()
+        {
+            Assert.True(IsJsonString(Quoted(@"abc \\\/ \u476872  /")));
+        }
+
         public static string Quoted(string text)
             => $"\"{text}\"";
     }

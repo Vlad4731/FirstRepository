@@ -44,9 +44,9 @@ namespace Json
 
         static bool ValidateEachEscapeCharacter(string input)
         {
-            for (int i = 0; i < @input.Length - 1; i++)
+            for (int i = 1; i < @input.Length - 1; i++)
             {
-                if (input[i] == '\\' && !CheckForEscapeCharacterCodes(input[i + 1]))
+                if (input[i] == '\\' && !"\\\"/bfnurt".Contains(input[i + 1]))
                 {
                     return false;
                 }
@@ -60,33 +60,18 @@ namespace Json
             return true;
         }
 
-        static bool CheckForEscapeCharacterCodes(char input)
-        {
-            char[] array = { '/', '\"', 'b', 'f', 'n', 'u', 'r', 't' };
-
-            foreach (char c in array)
-            {
-                if (input == c)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         static bool EndsWithReverseSolidus(string input)
         {
-            const int offset_of_last_character_in_string = 2;
+            const int offsetFromEnding = 2;
 
-            return input[^offset_of_last_character_in_string] == '\\';
+            return input[^offsetFromEnding] == '\\';
         }
 
         static bool ContainsControlCharacters(string input)
         {
             foreach (char c in input)
             {
-                if (c < '\u0020' || input.Contains(@"\u0022 ") || input.Contains(@"\u005c "))
+                if (c < '\u0020')
                 {
                     return true;
                 }
