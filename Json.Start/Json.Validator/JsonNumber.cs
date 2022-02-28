@@ -51,10 +51,12 @@ namespace Json
                 return true;
             }
 
-            if (input.StartsWith('e') || input.StartsWith('E'))
+            if (!input.StartsWith('e') && !input.StartsWith('E'))
             {
-                input = input[1..];
+                return false;
             }
+
+            input = input[1..];
 
             if (input.StartsWith('-') || input.StartsWith('+'))
             {
