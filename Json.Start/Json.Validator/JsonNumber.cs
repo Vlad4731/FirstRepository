@@ -2,92 +2,147 @@ using System;
 
 namespace Json
 {
+    struct Number
+    {
+        public string Whole;
+        public string Fraction;
+        public string Exponent;
+
+        public Number(string whole, string fraction, string exponent)
+        {
+            Whole = whole;
+            Fraction = fraction;
+            Exponent = exponent;
+        }
+    }
+
     public static class JsonNumber
     {
         public static bool IsJsonNumber(string input)
         {
-            return IsValidIntNumber(input) || IsValidDoubleNumber(input);
+            if (string.IsNullOrEmpty(input) || EndsWithUnfinishedFractionOrExponential(input))
+            {
+                return false;
+            }
+
+            Number number = SplitNumber(input);
+
+            return IsValidWholeNumber(number.Whole)
+                && IsValidFractionalNumber(number.Fraction)
+                && IsValidExponentNumber(number.Exponent);
         }
 
-        static bool IsValidIntNumber(string input)
+        static bool EndsWithUnfinishedFractionOrExponential(string input)
         {
-            return int.TryParse(input, out _) && input.IndexOf("0") == input.Length - 1 ^ input.IndexOf("0") == -1;
+            return input.EndsWith('.') || input.EndsWith('e') || input.EndsWith('E');
         }
 
-        static bool IsValidDoubleNumber(string input)
+        static bool IsValidWholeNumber(string input)
         {
-            return double.TryParse(input, out _)
-                && (NumberContainsValidFractionalDot(input)
-                && !StringContainsLettersOtherThanExponent(input)
-                || NumberIsValidExponent(input));
+            if (input.Length > 1 && input.StartsWith('0'))
+            {
+                return false;
+            }
+
+            if (StringStartsWithValidSymbol(input))
+            {
+                return StringIsDigits(input[1..]);
+            }
+
+            return StringIsDigits(input);
         }
 
-        static bool NumberIsValidExponent(string input)
+        static bool IsValidFractionalNumber(string input)
         {
-            return NumberContainsExponent(input) && input.IndexOf('.') < input.IndexOf('e', StringComparison.OrdinalIgnoreCase);
+            if (string.IsNullOrEmpty(input))
+            {
+                return true;
+            }
+
+            return StringIsDigits(input);
         }
 
-        static bool NumberContainsExponent(string input)
+        static bool IsValidExponentNumber(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return true;
+            }
+
+            return IsValidWholeNumber(input);
+        }
+
+        static Number SplitNumber(string input)
+        {
+            return new Number
+            {
+                Whole = ExtractWholePart(input),
+                Fraction = ExtractFractionalPart(input),
+                Exponent = ExtractExponentialPart(input)
+            };
+        }
+
+        static string ExtractWholePart(string input)
+        {
+            if (input.Contains('.', StringComparison.CurrentCultureIgnoreCase))
+            {
+                return input.Substring(0, input.IndexOf('.'));
+            }
+
+            if (input.Contains('e', StringComparison.CurrentCultureIgnoreCase))
+            {
+                return input.Substring(0, input.IndexOf('e', StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            return input;
+        }
+
+        static string ExtractExponentialPart(string input)
         {
             return input.Contains('e', StringComparison.CurrentCultureIgnoreCase)
-                && (CharacterAppearsOnlyOnce(input, 'e') && input.IndexOf('e') < input.Length - 1)
-                ^ (CharacterAppearsOnlyOnce(input, 'E') && input.IndexOf('E') < input.Length - 1);
+                ? "" + input.Substring(input.IndexOf('e', StringComparison.CurrentCultureIgnoreCase) + 1)
+                : null;
         }
 
-        static bool CharacterAppearsOnlyOnce(string input, char character)
+        static string ExtractFractionalPart(string input)
         {
-            int count = 0;
-            foreach (char c in input)
+            if (input.Contains('e', StringComparison.InvariantCultureIgnoreCase)
+                && input.IndexOf('.') > input.IndexOf('e', StringComparison.InvariantCultureIgnoreCase))
             {
-                if (c == character)
-                {
-                    count++;
-                }
+                return null;
             }
 
-            return count == 1;
+            if (input.Contains('e', StringComparison.CurrentCultureIgnoreCase))
+            {
+                return "" + input.Substring(
+                    input.IndexOf('.', StringComparison.CurrentCultureIgnoreCase) + 1,
+                    input.IndexOf('e', StringComparison.CurrentCultureIgnoreCase) - input.IndexOf('.') - 1);
+            }
+
+            return input.Contains('.') ? "" + input.Substring(input.IndexOf('.', StringComparison.CurrentCultureIgnoreCase) + 1) : null;
         }
 
-        static bool NumberIsBetween(int index, int min, int max)
-        {
-            return index > min && index < max;
-        }
-
-        static bool StringContainsLettersOtherThanExponent(string input)
-        {
-            return StringContainsCapitalLetters(input) || StringContainsSmallLetters(input) && !NumberContainsExponent(input);
-        }
-
-        static bool StringContainsSmallLetters(string input)
+        static bool StringIsDigits(string input)
         {
             foreach (char c in input)
             {
-                if (c >= 'a' && c <= 'z')
+                if (c < '0' || c > '9')
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
 
-        static bool StringContainsCapitalLetters(string input)
+        static bool StringStartsWithValidSymbol(string input)
         {
-            foreach (char c in input)
+            if (input.Length <= 1)
             {
-                if (c >= 'A' && c <= 'Z')
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
-        }
-
-        static bool NumberContainsValidFractionalDot(string input)
-        {
-            return NumberIsBetween(input.IndexOf('.'), -1, input.Length - 1)
-                && CharacterAppearsOnlyOnce(input, '.');
+            return input.StartsWith('-') ^ input.StartsWith('+');
         }
     }
 }
