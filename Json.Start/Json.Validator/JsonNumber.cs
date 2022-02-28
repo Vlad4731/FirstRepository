@@ -2,39 +2,21 @@ using System;
 
 namespace Json
 {
-    struct Number
-    {
-        public string Whole;
-        public string Fraction;
-        public string Exponent;
-
-        public Number(string integer, string fraction, string exponent)
-        {
-            Integer = integer;
-            Fraction = fraction;
-            Exponent = exponent;
-        }
-    }
-
     public static class JsonNumber
     {
         public static bool IsJsonNumber(string input)
         {
-            if (string.IsNullOrEmpty(input) || EndsWithUnfinishedFractionOrExponential(input))
+            if (string.IsNullOrEmpty(input))
             {
                 return false;
             }
 
-            Number number = SplitNumber(input);
+            int dotIndex = input.IndexOf('.');
+            int exponentIndex = input.IndexOfAny("eE".ToCharArray());
 
-            return IsValidWIntegerNumber(number.Whole)
-                && IsValidFractionalNumber(number.Fraction)
-                && IsValidExponentNumber(number.Exponent);
-        }
-
-        static bool EndsWithUnfinishedFractionOrExponential(string input)
-        {
-            return input.EndsWith('.') || input.EndsWith('e') || input.EndsWith('E');
+            return IsValidIntegerNumber(ExtractIntegerPart(input, dotIndex, exponentIndex))
+                && IsValidFractionalNumber(ExtractFractionalPart(input, dotIndex, exponentIndex))
+                && IsValidExponentNumber(ExtractExponentialPart(input, exponentIndex));
         }
 
         static bool IsValidIntegerNumber(string input)
@@ -44,9 +26,9 @@ namespace Json
                 return false;
             }
 
-            if (StringStartsWithValidSymbol(input))
+            if (input.StartsWith('-'))
             {
-                return StringIsDigits(input[1..]);
+                input = input[1..];
             }
 
             return StringIsDigits(input);
@@ -59,7 +41,7 @@ namespace Json
                 return true;
             }
 
-            return StringIsDigits(input);
+            return StringIsDigits(input[1..]);
         }
 
         static bool IsValidExponentNumber(string input)
@@ -69,57 +51,52 @@ namespace Json
                 return true;
             }
 
-            return IsValidIntegerNumber(input);
-        }
-
-        static Number SplitNumber(string input)
-        {
-            return new Number
+            if (input.StartsWith('e') || input.StartsWith('E'))
             {
-                Whole = ExtractWholePart(input),
-                Fraction = ExtractFractionalPart(input),
-                Exponent = ExtractExponentialPart(input)
-            };
-        }
-
-        static string ExtractWholePart(string input)
-        {
-            if (input.Contains('.', StringComparison.CurrentCultureIgnoreCase))
-            {
-                return input.Substring(0, input.IndexOf('.'));
+                input = input[1..];
             }
 
-            if (input.Contains('e', StringComparison.CurrentCultureIgnoreCase))
+            if (input.StartsWith('-') || input.StartsWith('+'))
             {
-                return input.Substring(0, input.IndexOf('e', StringComparison.CurrentCultureIgnoreCase));
+                input = input[1..];
+            }
+
+            return StringIsDigits(input);
+        }
+
+        static string ExtractIntegerPart(string input, int dotIndex, int exponentIndex)
+        {
+            if (dotIndex > -1)
+            {
+                return input[.. dotIndex];
+            }
+
+            if (exponentIndex > 1)
+            {
+                return input[.. exponentIndex];
             }
 
             return input;
         }
 
-        static string ExtractExponentialPart(string input)
+        static string ExtractFractionalPart(string input, int dotIndex, int exponentIndex)
         {
-            return input.Contains('e', StringComparison.CurrentCultureIgnoreCase)
-                ? "" + input.Substring(input.IndexOf('e', StringComparison.CurrentCultureIgnoreCase) + 1)
-                : null;
-        }
-
-        static string ExtractFractionalPart(string input)
-        {
-            if (input.Contains('e', StringComparison.InvariantCultureIgnoreCase)
-                && input.IndexOf('.') > input.IndexOf('e', StringComparison.InvariantCultureIgnoreCase))
+            if (exponentIndex > -1 && dotIndex > exponentIndex)
             {
                 return null;
             }
 
-            if (input.Contains('e', StringComparison.CurrentCultureIgnoreCase))
+            if (exponentIndex > -1 && dotIndex > -1)
             {
-                return "" + input.Substring(
-                    input.IndexOf('.', StringComparison.CurrentCultureIgnoreCase) + 1,
-                    input.IndexOf('e', StringComparison.CurrentCultureIgnoreCase) - input.IndexOf('.') - 1);
+                return input[dotIndex.. (exponentIndex - 1)];
             }
 
-            return input.Contains('.') ? "" + input.Substring(input.IndexOf('.', StringComparison.CurrentCultureIgnoreCase) + 1) : null;
+            return dotIndex > -1 ? input[dotIndex..] : null;
+        }
+
+        static string ExtractExponentialPart(string input, int exponentIndex)
+        {
+            return exponentIndex > -1 ? input[exponentIndex..] : null;
         }
 
         static bool StringIsDigits(string input)
@@ -132,17 +109,7 @@ namespace Json
                 }
             }
 
-            return true;
-        }
-
-        static bool StringStartsWithValidSymbol(string input)
-        {
-            if (input.Length <= 1)
-            {
-                return false;
-            }
-
-            return input.StartsWith('-') ^ input.StartsWith('+');
+            return input.Length > 0;
         }
     }
 }
