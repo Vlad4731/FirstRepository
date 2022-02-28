@@ -8,9 +8,9 @@ namespace Json
         public string Fraction;
         public string Exponent;
 
-        public Number(string whole, string fraction, string exponent)
+        public Number(string integer, string fraction, string exponent)
         {
-            Whole = whole;
+            Integer = integer;
             Fraction = fraction;
             Exponent = exponent;
         }
@@ -27,7 +27,7 @@ namespace Json
 
             Number number = SplitNumber(input);
 
-            return IsValidWholeNumber(number.Whole)
+            return IsValidWIntegerNumber(number.Whole)
                 && IsValidFractionalNumber(number.Fraction)
                 && IsValidExponentNumber(number.Exponent);
         }
@@ -37,7 +37,7 @@ namespace Json
             return input.EndsWith('.') || input.EndsWith('e') || input.EndsWith('E');
         }
 
-        static bool IsValidWholeNumber(string input)
+        static bool IsValidIntegerNumber(string input)
         {
             if (input.Length > 1 && input.StartsWith('0'))
             {
@@ -69,7 +69,7 @@ namespace Json
                 return true;
             }
 
-            return IsValidWholeNumber(input);
+            return IsValidIntegerNumber(input);
         }
 
         static Number SplitNumber(string input)
