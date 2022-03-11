@@ -10,5 +10,15 @@
             Name = teamName;
             Points = teamPoints;
         }
+
+        public void SetPoints(int newPoints)
+        {
+            teamPoints = newPoints;
+        }
+
+        public int GetPoints()
+        {
+            return teamPoints;
+        }
     }
 }
