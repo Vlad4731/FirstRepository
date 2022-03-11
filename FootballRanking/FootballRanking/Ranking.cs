@@ -5,14 +5,6 @@ namespace FootballRanking
 {
     class Ranking
     {
-        public Ranking()
-        {
-            for (int i = 0; i < 30; i++)
-            {
-                footballTeams[i] = new Team();
-            }
-        }
-
         public struct Team
         {
             public string TeamName { get; set; }
@@ -26,7 +18,7 @@ namespace FootballRanking
             footballTeams[placement] = new Team { TeamName = teamName };
         }
 
-        public int GetTeamPlacement(string teamName)
+        public int GetTeamPlacementByName(string teamName)
         {
             for (int i = 0; i < footballTeams.Length; i++)
             {
@@ -38,5 +30,16 @@ namespace FootballRanking
 
             return -1;
         }
+
+        public string GetTeamPlacementByRanking(int inputRanking)
+        {
+            if (!string.IsNullOrEmpty(footballTeams[inputRanking].TeamName))
+            {
+                return footballTeams[inputRanking].TeamName;
+            }
+
+            return null;
+        }
+
     }
 }
