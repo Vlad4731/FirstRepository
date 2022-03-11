@@ -1,7 +1,14 @@
 ﻿namespace FootballRanking
 {
-    internal class Team
+    public class Team
     {
+        private readonly string teamName;
+        private int teamPoints;
 
+        public Team(string Name, int Points)
+        {
+            Name = teamName;
+            Points = teamPoints;
+        }
     }
 }
