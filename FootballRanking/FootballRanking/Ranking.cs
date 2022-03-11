@@ -4,6 +4,6 @@ namespace FootballRanking
 {
     public class Ranking
     {
-
+        
     }
 }
