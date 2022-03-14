@@ -34,7 +34,7 @@
             draws++;
             CalculatePoints();
         }
-        public void AddLosses()
+        public void AddLoss()
         {
             losses++;
             CalculatePoints();

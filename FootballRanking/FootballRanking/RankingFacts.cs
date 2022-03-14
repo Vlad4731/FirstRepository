@@ -22,7 +22,7 @@ namespace FootballRanking
             Team echipa = new Team("CFR");
             clasament.Add(echipa);
             echipa.AddWin();
-            clasament.Add(new Team("Universitatea Craiova"));
+            clasament.Add(new Team("Universitatea Cluj"));
             Assert.False(clasament.PositionOf(echipa) == 1);
             Assert.True(clasament.PositionOf(echipa) == 0);
         }
@@ -37,6 +37,17 @@ namespace FootballRanking
             Assert.Equal("Pozitie neocupata.", clasament.AtPosition(25));
         }
 
-
+        [Fact]
+        static void MatchPointsCanModifyRanking()
+        {
+            Ranking clasament = new Ranking(new Team[0]);
+            Team home = new Team("CFR");
+            clasament.Add(home);
+            Team away = new Team("Universitatea Cluj");
+            clasament.Add(away);
+            clasament.Match(home, away, 2, 4);
+            Assert.True(clasament.PositionOf(away) == 0);
+            Assert.False(clasament.PositionOf(home) == 0);
+        }
     }
 }

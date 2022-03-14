@@ -34,6 +34,27 @@ namespace FootballRanking
             return -1;
         }
 
+        public void Match(Team home, Team away, int homeGoals, int awayGoals)
+        {
+            if(homeGoals > awayGoals)
+            {
+                home.AddWin();
+                away.AddLoss();
+            }
+            else if (homeGoals < awayGoals)
+            {
+                home.AddLoss();
+                away.AddWin();
+            }
+            else
+            {
+                home.AddDraw();
+                away.AddDraw();
+            }
+
+            Sort();
+        }
+
         public string AtPosition(int i)
         {
             return i < rankIndex ? teamsRanking[i].ToString() : "Pozitie neocupata.";
