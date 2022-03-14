@@ -20,5 +20,9 @@
         {
             return teamPoints;
         }
+        public string GetName()
+        {
+            return teamName;
+        }
     }
 }

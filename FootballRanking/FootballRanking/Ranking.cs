@@ -28,9 +28,17 @@ namespace FootballRanking
             teamRankings[0] = new TeamRanking(team, 0);
         }
 
-        public int ReportTeamPlaceInRanking()
+        public int ReportTeamPlaceInRanking(Team team)
         {
-            return teamRankings[0].teamRanking;
+            foreach(var echipa in teamRankings)
+            {
+                if (echipa.team.GetName() == team.GetName())
+                {
+                    return echipa.teamRanking;
+                }
+            }
+
+            return -1;
         }
 
     }
