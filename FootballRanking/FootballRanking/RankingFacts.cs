@@ -26,5 +26,17 @@ namespace FootballRanking
             Assert.False(clasament.PositionOf(echipa) == 1);
             Assert.True(clasament.PositionOf(echipa) == 0);
         }
+
+        [Fact]
+        static void CanRetrieveTeamFromPosition()
+        {
+            Team echipa = new Team("CFR");
+            Ranking clasament = new Ranking(new Team[0]);
+            clasament.Add(echipa);
+            Assert.Equal(echipa.ToString(), clasament.AtPosition(0));
+            Assert.Equal("Pozitie neocupata.", clasament.AtPosition(25));
+        }
+
+
     }
 }

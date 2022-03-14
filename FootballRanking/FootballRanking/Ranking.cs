@@ -34,6 +34,11 @@ namespace FootballRanking
             return -1;
         }
 
+        public string AtPosition(int i)
+        {
+            return i < rankIndex ? teamsRanking[i].ToString() : "Pozitie neocupata.";
+        }
+
         private void Sort()
         {
             bool match = true;
