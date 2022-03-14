@@ -6,45 +6,35 @@ namespace FootballRanking
     {
         int rankIndex = 0;
 
-        public struct TeamRanking
-        {
-            public readonly Team team;
-            public int teamRanking;
+        private Team[] teamsRanking = new Team[0];
 
-            public TeamRanking(Team inputTeam, int inputRanking)
-            {
-                team = inputTeam;
-                teamRanking = inputRanking;
-            }
+        public Ranking(Team[] teams)
+        {
+            teamsRanking = teams;
         }
 
-        public TeamRanking[] teamRankings = new TeamRanking[20];
-
-        public Ranking(TeamRanking[] rankings)
+        public void Add(Team team)
         {
-            rankings = teamRankings;
-        }
-
-        public void AddTeamToRanking(Team team, int rank)
-        {
-            teamRankings.SetValue(new TeamRanking(team, rank), rankIndex);
+            Array.Resize(ref teamsRanking, rankIndex + 1);
+            teamsRanking[rankIndex] = team;
             rankIndex++;
+            Sort();
         }
 
-        public int ReportTeamPlaceInRanking(Team team)
+        public int PositionOf(Team team)
         {
-            foreach(var echipa in teamRankings)
+            for (int i = 0; i < rankIndex; i++)
             {
-                if (echipa.team.GetName() == team.GetName())
+                if (teamsRanking[i] == team)
                 {
-                    return echipa.teamRanking;
+                    return i;
                 }
             }
 
             return -1;
         }
 
-        public void SortTeamsInRanking()
+        private void Sort()
         {
             bool match = true;
             while (match)
@@ -52,32 +42,20 @@ namespace FootballRanking
                 match = false;
                 for (int i = 0; i < rankIndex - 1; i++)
                 {
-                    if (teamRankings[i].team.GetPoints() < teamRankings[i + 1].team.GetPoints())
+                    if (teamsRanking[i].GetPoints() < teamsRanking[i + 1].GetPoints())
                     {
-                        TeamSwap(teamRankings, i, i + 1);
+                        TeamSwap(i, i + 1);
                         match = true;
                     }
                 }
             }
         }
 
-        static (int minIndex, int maxIndex) GetMinMaxIndex(int firstIndex, int secondIndex)
+        private void TeamSwap(int firstIndex, int secondIndex)
         {
-            if (firstIndex > secondIndex)
-            {
-                return (secondIndex, firstIndex);
-            }
-
-            return (firstIndex, secondIndex);
-        }
-
-        static void TeamSwap(TeamRanking[] teams, int firstIndex, int secondIndex)
-        {
-            (int minIndex, int maxIndex) = GetMinMaxIndex(firstIndex, secondIndex);
-
-            TeamRanking temp = teams[minIndex];
-            teams[minIndex] = teams[maxIndex];
-            teams[maxIndex] = temp;
+            Team temp = teamsRanking[firstIndex];
+            teamsRanking[firstIndex] = teamsRanking[secondIndex];
+            teamsRanking[secondIndex] = temp;
         }
 
     }

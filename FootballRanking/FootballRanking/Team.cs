@@ -2,27 +2,42 @@
 {
     public class Team
     {
-        private readonly string teamName;
-        private int teamPoints;
+        private readonly string name;
+        private int teamPoints = 0;
+        private int wins = 0;
+        private int losses = 0;
+        private int draws = 0;
 
-        public Team(string Name, int Points)
+        public Team(string Name)
         {
-            teamName = Name;
-            teamPoints = Points;
-        }
-
-        public void SetPoints(int newPoints)
-        {
-            teamPoints = newPoints;
+            name = Name;
         }
 
         public int GetPoints()
         {
             return teamPoints;
         }
-        public string GetName()
+
+        private void CalculatePoints()
         {
-            return teamName;
+            teamPoints = wins * 3 + draws + 0 * losses;
+        }
+
+        public void AddWin()
+        {
+            wins++;
+            CalculatePoints();
+        }
+
+        public void AddDraw()
+        {
+            draws++;
+            CalculatePoints();
+        }
+        public void AddLosses()
+        {
+            losses++;
+            CalculatePoints();
         }
     }
 }
