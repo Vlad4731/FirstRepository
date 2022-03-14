@@ -7,8 +7,8 @@
 
         public Team(string Name, int Points)
         {
-            Name = teamName;
-            Points = teamPoints;
+            teamName = Name;
+            teamPoints = Points;
         }
 
         public void SetPoints(int newPoints)
