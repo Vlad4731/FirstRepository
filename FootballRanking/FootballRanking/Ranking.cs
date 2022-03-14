@@ -23,9 +23,9 @@ namespace FootballRanking
             rankings = teamRankings;
         }
 
-        public void AddTeamToRanking(Team team)
+        public void AddTeamToRanking(Team team, int rank)
         {
-            teamRankings[0] = new TeamRanking(team, 0);
+            teamRankings.SetValue(new TeamRanking(team, rank), rank);
         }
 
         public int ReportTeamPlaceInRanking(Team team)
