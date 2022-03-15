@@ -87,14 +87,5 @@ namespace FootballRanking
             teamsRanking[firstIndex] = teamsRanking[secondIndex];
             teamsRanking[secondIndex] = temp;
         }
-
-        public void Print()
-        {
-            foreach ( Team team in teamsRanking)
-            {
-                Console.WriteLine(team);
-            }
-        }
-
     }
 }
