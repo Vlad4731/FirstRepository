@@ -39,11 +39,9 @@ namespace FootballRanking
             if(homeGoals > awayGoals)
             {
                 home.AddWin();
-                away.AddLoss();
             }
             else if (homeGoals < awayGoals)
             {
-                home.AddLoss();
                 away.AddWin();
             }
             else
@@ -55,9 +53,15 @@ namespace FootballRanking
             Sort();
         }
 
-        public string AtPosition(int i)
+        public Team AtPosition(int i)
         {
-            return i < rankIndex ? teamsRanking[i].ToString() : "Pozitie neocupata.";
+            if (i < rankIndex)
+            {
+                return teamsRanking[i];
+            }
+
+            return null;
+
         }
 
         private void Sort()
@@ -68,7 +72,7 @@ namespace FootballRanking
                 match = false;
                 for (int i = 0; i < rankIndex - 1; i++)
                 {
-                    if (teamsRanking[i].GetPoints() < teamsRanking[i + 1].GetPoints())
+                    if (teamsRanking[i].TeamCompare(teamsRanking[i + 1]) == -1)
                     {
                         TeamSwap(i, i + 1);
                         match = true;
@@ -82,6 +86,14 @@ namespace FootballRanking
             Team temp = teamsRanking[firstIndex];
             teamsRanking[firstIndex] = teamsRanking[secondIndex];
             teamsRanking[secondIndex] = temp;
+        }
+
+        public void Print()
+        {
+            foreach ( Team team in teamsRanking)
+            {
+                Console.WriteLine(team);
+            }
         }
 
     }

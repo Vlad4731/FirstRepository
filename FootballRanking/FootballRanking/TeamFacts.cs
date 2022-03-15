@@ -12,7 +12,7 @@ namespace FootballRanking
             echipa.AddWin();
             echipa.AddWin();
             echipa.AddDraw();
-            Assert.Equal(7, echipa.GetPoints());
+            Assert.Equal(1, echipa.TeamCompare(new Team("Universitatea Cluj")));
         }
     }
 }

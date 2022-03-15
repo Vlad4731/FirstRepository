@@ -33,8 +33,8 @@ namespace FootballRanking
             Team echipa = new Team("CFR");
             Ranking clasament = new Ranking(new Team[0]);
             clasament.Add(echipa);
-            Assert.Equal(echipa.ToString(), clasament.AtPosition(0));
-            Assert.Equal("Pozitie neocupata.", clasament.AtPosition(25));
+            Assert.Equal(echipa, clasament.AtPosition(0));
+            Assert.Null(clasament.AtPosition(25));
         }
 
         [Fact]

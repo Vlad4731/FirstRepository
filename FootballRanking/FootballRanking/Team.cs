@@ -4,40 +4,25 @@
     {
         private readonly string name;
         private int teamPoints = 0;
-        private int wins = 0;
-        private int losses = 0;
-        private int draws = 0;
 
         public Team(string Name)
         {
             name = Name;
         }
 
-        public int GetPoints()
-        {
-            return teamPoints;
-        }
-
-        private void CalculatePoints()
-        {
-            teamPoints = wins * 3 + draws + 0 * losses;
-        }
-
         public void AddWin()
         {
-            wins++;
-            CalculatePoints();
+            teamPoints += 3;
         }
 
         public void AddDraw()
         {
-            draws++;
-            CalculatePoints();
+            teamPoints += 1;
         }
-        public void AddLoss()
+
+        public int TeamCompare(Team team)
         {
-            losses++;
-            CalculatePoints();
+            return teamPoints.CompareTo(team.teamPoints);
         }
     }
 }
