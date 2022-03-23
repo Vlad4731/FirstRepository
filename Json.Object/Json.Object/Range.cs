@@ -1,4 +1,4 @@
-﻿namespace Json.Object
+﻿namespace Json
 {
     public class Range
     {

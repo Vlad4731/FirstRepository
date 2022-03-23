@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Json.Object
+namespace Json
 {
     class Program
     {
