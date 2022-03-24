@@ -2,11 +2,6 @@
 
 namespace Json
 {
-    interface IPattern
-    {
-        bool Match(string text);
-    }
-
     class Program
     {
         static void Main(string[] args)
@@ -22,6 +17,11 @@ namespace Json
                 new Character('0'),
                 new Range('1', '9')
             };
+
+            var digit = new Choice(
+                new Character('0'),
+                new Range('1', '9')
+            );
 
             foreach (var pattern in digitPatterns)
             {
