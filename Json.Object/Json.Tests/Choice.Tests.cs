@@ -18,6 +18,18 @@ namespace Json.Tests
             Assert.True(digit.Match(text));
         }
 
+        [Theory]
+        [InlineData("A")]
+        [InlineData("abc")]
+        [InlineData("ABC")]
+        public void CharactersAreMatched(string text)
+        {
+            var character = new Choice(
+                new Range('a', 'f'),
+                new Range('A', 'F')
+            );
+            Assert.True(character.Match(text));
+        }
 
         [Theory]
         [InlineData("012")]
