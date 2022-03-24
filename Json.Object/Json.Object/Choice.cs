@@ -11,18 +11,20 @@
 
         public bool Match(string text)
         {
-            if(!string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
-                foreach (var pattern in patterns)
+                return false;
+            }
+
+            foreach (var pattern in patterns)
+            {
+                if(pattern.Match(text))
                 {
-                    if(pattern.Match(text))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
-            return false;
+            return false; ;
         }
     }
 }
