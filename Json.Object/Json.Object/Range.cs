@@ -1,9 +1,9 @@
 ﻿namespace Json
 {
-    public class Range
+    public class Range : IPattern
     {
-        private char starChar;
-        private char endChar;
+        readonly char starChar;
+        readonly char endChar;
 
         public Range(char start, char end)
         {
