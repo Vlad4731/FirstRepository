@@ -11,11 +11,11 @@
             endChar = end;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
             if(string.IsNullOrEmpty(text))
             {
-                return false;
+                return true;
             }
 
             foreach(char c in text)

@@ -2,7 +2,7 @@
 {
     public class Match : IMatch
     {
-        string text;
+        readonly string text;
 
         public Match (string match)
         {

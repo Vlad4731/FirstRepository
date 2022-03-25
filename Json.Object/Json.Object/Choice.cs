@@ -10,7 +10,7 @@ namespace Json
             this.patterns = patterns;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
             if (string.IsNullOrEmpty(text))
             {
