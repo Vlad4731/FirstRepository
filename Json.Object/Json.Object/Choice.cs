@@ -1,5 +1,4 @@
-﻿
-namespace Json
+﻿namespace Json
 {
     public class Choice : IPattern
     {
@@ -17,11 +16,14 @@ namespace Json
                 return false;
             }
 
-            foreach (var pattern in patterns)
+            foreach(char c in text)
             {
-                if(pattern.Match(text))
+                foreach (var pattern in patterns)
                 {
-                    return true;
+                    if (pattern.Match(c.ToString()))
+                    {
+                        return true;
+                    }
                 }
             }
 
