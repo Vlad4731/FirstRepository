@@ -16,18 +16,27 @@
                 return false;
             }
 
+            bool match = false;
+
             foreach(char c in text)
             {
+                match = false;
+
                 foreach (var pattern in patterns)
                 {
                     if (pattern.Match(c.ToString()))
                     {
-                        return true;
+                        match = true;
                     }
+                }
+
+                if(match == false)
+                {
+                    return false;
                 }
             }
 
-            return false;
+            return match;
         }
     }
 }
