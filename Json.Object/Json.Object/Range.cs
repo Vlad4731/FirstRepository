@@ -11,7 +11,7 @@
             endChar = end;
         }
 
-        public IMatch Match(string text)
+        public bool Match(string text)
         {
             if(string.IsNullOrEmpty(text))
             {
