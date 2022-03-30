@@ -7,14 +7,14 @@ namespace Json.Tests
         [Fact]
         public void MatchIsSuccessful()
         {
-            Match test = new Match("text");
+            SuccessMatch test = new SuccessMatch("text");
             Assert.True(test.Success());
         }
 
         [Fact]
         public void ReminingTextIsReturned()
         {
-            Match test = new Match("text");
+            SuccessMatch test = new SuccessMatch("text");
             Assert.Equal("text", test.RemainingText());
         }
     }

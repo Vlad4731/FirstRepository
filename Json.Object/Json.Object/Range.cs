@@ -15,18 +15,18 @@
         {
             if(string.IsNullOrEmpty(text))
             {
-                return true;
+                return new FailedMatch(text);
             }
 
             foreach(char c in text)
             {
                 if (c < starChar || c > endChar)
                 {
-                    return false;
+                    return new FailedMatch(text);
                 }
             }
 
-            return true;
+            return new SuccessMatch(text);
         }
     }
 }

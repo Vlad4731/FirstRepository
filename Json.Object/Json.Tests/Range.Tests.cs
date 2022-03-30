@@ -11,7 +11,7 @@ namespace Json.Tests
         public void TextIsInRange(string text)
         {
             Range interval = new Range('a', 'f');
-            Assert.True(interval.Match(text));
+            Assert.True(interval.Match(text).Success());
         }
 
 
@@ -22,7 +22,7 @@ namespace Json.Tests
         public void TextIsOutsideRange(string text)
         {
             Range interval = new Range('a', 'f');
-            Assert.False(interval.Match(text));
+            Assert.False(interval.Match(text).Success());
         }
     }
 }

@@ -13,7 +13,7 @@
         {
             if (string.IsNullOrEmpty(text))
             {
-                return false;
+                return new FailedMatch(text);
             }
 
             bool match = false;
@@ -24,7 +24,7 @@
 
                 foreach (var pattern in patterns)
                 {
-                    if (pattern.Match(c.ToString()))
+                    if (pattern.Match(c.ToString()).Success())
                     {
                         match = true;
                     }
@@ -32,11 +32,11 @@
 
                 if(match == false)
                 {
-                    return false;
+                    return new FailedMatch(text);
                 }
             }
 
-            return match;
+            return new SuccessMatch(text[1..]);
         }
     }
 }

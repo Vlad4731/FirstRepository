@@ -15,7 +15,7 @@ namespace Json.Tests
                 new Range('1', '9')
             );
 
-            Assert.True(digit.Match(text));
+            Assert.True(digit.Match(text).Success());
         }
 
         [Theory]
@@ -29,7 +29,7 @@ namespace Json.Tests
                 new Range('A', 'F')
             );
 
-            Assert.True(character.Match(text));
+            Assert.True(character.Match(text).Success());
         }
 
         [Theory]
@@ -54,7 +54,7 @@ namespace Json.Tests
                 )
             );
 
-            Assert.True(hex.Match(text));
+            Assert.True(hex.Match(text).Success());
         }
 
         [Theory]
@@ -77,7 +77,7 @@ namespace Json.Tests
                 )
             );
 
-            Assert.False(hex.Match(text));
+            Assert.False(hex.Match(text).Success());
         }
     }
 }
