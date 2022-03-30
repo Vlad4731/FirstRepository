@@ -27,6 +27,7 @@
                     if (pattern.Match(c.ToString()).Success())
                     {
                         match = true;
+                        break;
                     }
                 }
 

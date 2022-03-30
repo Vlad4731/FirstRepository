@@ -26,7 +26,7 @@
                 }
             }
 
-            return new SuccessMatch(text);
+            return new SuccessMatch(text[1..]);
         }
     }
 }

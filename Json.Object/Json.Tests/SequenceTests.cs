@@ -67,7 +67,7 @@ namespace Json.Tests
 
             Assert.True(hexSeq.Match("u1234").Success());
             Assert.Equal("ef", hexSeq.Match("uabcdef").RemainingText());
-            //Assert.Equal(" ab", hexSeq.Match("uB005 ab").RemainingText());
+            Assert.Equal(" ab", hexSeq.Match("uB005 ab").RemainingText());
             Assert.False(hexSeq.Match("abc").Success());
         }
     }
