@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Json.Object\Json.Object.csproj" />
+    <ProjectReference Include="..\Json.Object\Json.Parser.csproj" />
   </ItemGroup>
 
 </Project>
