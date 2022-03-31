@@ -2,7 +2,7 @@
 {
     public class Text : IPattern
     {
-        private string prefix;
+        private readonly string prefix;
 
         public Text(string prefix)
         {
