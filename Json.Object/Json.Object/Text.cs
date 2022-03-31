@@ -11,7 +11,25 @@
 
         public IMatch Match(string text)
         {
-            throw new System.NotImplementedException();
+            if(text == null || text.Length < prefix.Length)
+            {
+                return new FailedMatch(text);
+            }
+
+            string matchedText = "";
+
+            foreach(char c in prefix)
+            {
+                if(c != text[0])
+                {
+                    return new FailedMatch(matchedText + text);
+                }
+
+                matchedText += c;
+                text = text[1..];
+            }
+
+            return new SuccessMatch(text);
         }
     }
 }
