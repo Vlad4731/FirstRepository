@@ -16,15 +16,16 @@
                 return new FailedMatch(text);
             }
 
-            string textBackup = text;
+            string matchedText = "";
 
             foreach (var pattern in patterns)
             {
                 if (!pattern.Match(text).Success())
                 {
-                    return new FailedMatch(textBackup);
+                    return new FailedMatch(matchedText + text);
                 }
 
+                matchedText += text[0..^(text.Length - 1)];
                 text = pattern.Match(text).RemainingText();
             }
 
