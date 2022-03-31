@@ -18,7 +18,7 @@ namespace Json.Tests
         [Theory]
         [InlineData("1ab")]
         [InlineData("*ab")]
-        [InlineData("b\nd")]
+        [InlineData("\nbd")]
         public void TextIsOutsideRange(string text)
         {
             Range interval = new Range('a', 'f');

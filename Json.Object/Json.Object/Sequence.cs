@@ -20,10 +20,6 @@
 
             foreach (var pattern in patterns)
             {
-                if(string.IsNullOrEmpty(text))
-                {
-                    break;
-                }
 
                 if (!pattern.Match(text).Success())
                 {

@@ -13,20 +13,9 @@
 
         public IMatch Match(string text)
         {
-            if(string.IsNullOrEmpty(text))
-            {
-                return new FailedMatch(text);
-            }
-
-            foreach(char c in text)
-            {
-                if (c < starChar || c > endChar)
-                {
-                    return new FailedMatch(text);
-                }
-            }
-
-            return new SuccessMatch(text[1..]);
+            return !string.IsNullOrEmpty(text) && text[0] >= starChar && text[0] <= endChar
+                ? new SuccessMatch(text[1..])
+                : new FailedMatch(text);
         }
     }
 }
