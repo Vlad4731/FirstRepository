@@ -16,28 +16,23 @@
                 return new FailedMatch(text);
             }
 
+            string backupText = text;
             bool match = false;
 
-            foreach(char c in text)
+            foreach (var pattern in patterns)
             {
-                match = false;
-
-                foreach (var pattern in patterns)
+                if (pattern.Match(text[0].ToString()).Success())
                 {
-                    if (pattern.Match(c.ToString()).Success())
-                    {
-                        match = true;
-                        break;
-                    }
+                    match = true;
+                    text = pattern.Match(text).RemainingText();
+                    break;
                 }
 
-                if(match == false)
-                {
-                    return new FailedMatch(text);
-                }
             }
 
-            return new SuccessMatch(text[1..]);
+            return match == true
+                ? new SuccessMatch(text)
+                : new FailedMatch(backupText);
         }
     }
 }

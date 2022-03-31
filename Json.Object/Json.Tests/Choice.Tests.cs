@@ -57,6 +57,25 @@ namespace Json.Tests
             Assert.True(hex.Match(text).Success());
         }
 
+        [Fact]
+        public void MatchIsHexed()
+        {
+            var digit = new Choice(
+                new Character('0'),
+                new Range('1', '9')
+            );
+
+            var hex = new Choice(
+                digit,
+                new Choice(
+                    new Range('a', 'f'),
+                    new Range('A', 'F')
+                )
+            );
+
+            Assert.True(hex.Match("f9").Success());
+        }
+
         [Theory]
         [InlineData("g8")]
         [InlineData("G8")]
