@@ -24,7 +24,7 @@
                 if (pattern.Match(text[0].ToString()).Success())
                 {
                     match = true;
-                    text = pattern.Match(text).RemainingText();
+                    text = text[1..];
                     break;
                 }
 
