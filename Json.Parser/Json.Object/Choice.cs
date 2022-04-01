@@ -21,10 +21,10 @@
 
             foreach (var pattern in patterns)
             {
-                if (pattern.Match(text[0].ToString()).Success())
+                if (pattern.Match(text).Success())
                 {
                     match = true;
-                    text = text[1..];
+                    text = pattern.Match(text).RemainingText();
                     break;
                 }
 
