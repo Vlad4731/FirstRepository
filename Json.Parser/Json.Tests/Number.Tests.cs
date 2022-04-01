@@ -49,7 +49,7 @@ namespace Json.Tests
         public void ObviousWrongNumberIsNotMatched()
         {
             Number test = new Number();
-            //Assert.False(test.Match("001.123.E++124").Success());
+            Assert.False(test.Match("001.123.E++124").Success());
             Assert.Equal("001.123.E++124", test.Match("001.123.E++124").RemainingText());
         }
     }
