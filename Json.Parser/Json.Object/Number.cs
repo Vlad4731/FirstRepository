@@ -6,21 +6,23 @@
 
         public Number()
         {
-            var digit = new Range('0', '9');
+            var onenine = new Range('1', '9');
+
+            var digit = new Choice(
+                new Character('0'),
+                onenine);
+
             var digits = new OneOrMore(digit);
 
-            var signs = new Any("-+");
-            var dot = new Character('.');
-
-            var exponentLetter = new Any("eE");
-
             var integer = new Choice(
-                new Sequence(new Character('-'), digits),
+                digit,
+                new Sequence(onenine, digits),
                 new Sequence(new Character('-'), digit),
-                digit
+                new Sequence(new Character('-'), onenine, digits)
             );
-            var exponent = new Optional(new Sequence(exponentLetter, signs, digits));
-            var fraction = new Optional(new Sequence(dot, digits));
+
+            var fraction = new Optional(new Sequence(new Character('.'), digits));
+            var exponent = new Optional(new Sequence(new Any("eE"), new Any("-+"), digits));
 
             pattern = new Sequence(integer, fraction, exponent);
 
