@@ -11,16 +11,10 @@
 
         public IMatch Match(string text)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return new FailedMatch(text);
-            }
-
             string backupText = text;
 
             foreach (var pattern in patterns)
             {
-
                 if (!pattern.Match(text).Success())
                 {
                     return new FailedMatch(backupText);
