@@ -11,20 +11,12 @@
 
         public IMatch Match(string text)
         {
-            if(string.IsNullOrEmpty(text))
+            if(!string.IsNullOrEmpty(text))
             {
-                return new SuccessMatch(text);
-            }
-
-            foreach (char c in text)
-            {
-                if (!pattern.Match(c.ToString()).Success())
+                while (pattern.Match(text).Success())
                 {
-                    return new SuccessMatch(text);
+                    text = pattern.Match(text).RemainingText();
                 }
-
-                text = text[1..];
-
             }
 
             return new SuccessMatch(text);
