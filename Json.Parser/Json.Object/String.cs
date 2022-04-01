@@ -6,7 +6,7 @@
 
         public String()
         {
-            var quotes = new Character('\"');
+            var quote = new Character('\"');
 
             var hex = new Choice(
                 new Range('0', '9'),
@@ -24,12 +24,13 @@
                 );
 
             var validCharacter = new Choice(
-                new Range(' ', '\uFFFF'),
+                new Range(' ', '\u0021'),
+                new Range('\u0023', '\u005B'),
+                new Range('\u005D', '\uffff'),
                 new Sequence(new Character('\\'), escape)
                 );
 
-            pattern = new Sequence(quotes, new OneOrMore(validCharacter), quotes);
-
+            pattern = new Sequence(quote, new OneOrMore(validCharacter), quote);
         }
 
         public IMatch Match(string text)

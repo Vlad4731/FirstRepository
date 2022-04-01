@@ -46,6 +46,14 @@ namespace Json.Tests
         }
 
         [Fact]
+        public void DoesNotContainLettersOrSymbols()
+        {
+            Number test = new Number();
+            Assert.False(test.Match("abc").Success());
+            Assert.False(test.Match("*/").Success());
+        }
+
+        [Fact]
         public void ObviousWrongNumberIsNotMatched()
         {
             Number test = new Number();
