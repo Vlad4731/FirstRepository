@@ -27,7 +27,6 @@
                     text = pattern.Match(text).RemainingText();
                     break;
                 }
-
             }
 
             return match == true
