@@ -2,7 +2,7 @@
 {
     public class Choice : IPattern
     {
-        readonly IPattern[] patterns;
+        private IPattern[] patterns;
 
         public Choice(params IPattern[] patterns)
         {
@@ -33,6 +33,12 @@
             return match == true
                 ? new SuccessMatch(text)
                 : new FailedMatch(backupText);
+        }
+
+        public void Add(IPattern newPattern)
+        {
+            System.Array.Resize(ref patterns, patterns.Length + 1);
+            patterns[^1] = newPattern;
         }
     }
 }
