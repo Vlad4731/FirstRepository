@@ -15,7 +15,7 @@ namespace Json
 
         static bool StringIsEmptyOrNull(string input)
         {
-            return input == string.Empty || input == null;
+            return string.IsNullOrEmpty(input);
         }
 
         static bool JsonHexIsValid(string input)
