@@ -11,27 +11,21 @@
 
         public IMatch Match(string text)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                return new FailedMatch(text);
-            }
-
             string backupText = text;
-            bool match = false;
 
-            foreach (var pattern in patterns)
+            if (!string.IsNullOrEmpty(text))
             {
-                if (pattern.Match(text).Success())
+                foreach (var pattern in patterns)
                 {
-                    match = true;
-                    text = pattern.Match(text).RemainingText();
-                    break;
+                    if (pattern.Match(text).Success())
+                    {
+                        text = pattern.Match(text).RemainingText();
+                        return new SuccessMatch(text);
+                    }
                 }
             }
 
-            return match == true
-                ? new SuccessMatch(text)
-                : new FailedMatch(backupText);
+            return new FailedMatch(backupText);
         }
 
         public void Add(IPattern newPattern)
