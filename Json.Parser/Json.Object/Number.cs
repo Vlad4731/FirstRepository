@@ -15,10 +15,8 @@
             var digits = new OneOrMore(digit);
 
             var integer = new Choice(
-                digit,
-                new Sequence(onenine, digits),
-                new Sequence(new Character('-'), digit),
-                new Sequence(new Character('-'), onenine, digits)
+                new Sequence(new Optional(new Character('-')), digit),
+                new Sequence(new Optional(new Character('-')), onenine, digits)
             );
 
             var fraction = new Optional(new Sequence(new Character('.'), digits));

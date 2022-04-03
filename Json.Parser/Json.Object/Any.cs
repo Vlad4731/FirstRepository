@@ -2,29 +2,18 @@
 {
     public class Any : IPattern
     {
-        private readonly char[] characters;
+        private readonly string characters;
 
         public Any(string accepted)
         {
-            characters = accepted.ToCharArray();
+            characters = accepted;
         }
 
         public IMatch Match(string text)
         {
-            if(string.IsNullOrEmpty(text))
-            {
-                return new FailedMatch(text);
-            }
-
-            foreach (char c in characters)
-            {
-                if(text[0] == c)
-                {
-                    return new SuccessMatch(text[1..]);
-                }
-            }
-
-            return new FailedMatch(text);
+            return !string.IsNullOrEmpty(text) && characters.Contains(text[0])
+                ? new SuccessMatch(text[1..])
+                : new FailedMatch(text);
         }
     }
 }
