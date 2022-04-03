@@ -4,7 +4,7 @@ namespace Json.Tests
 {
     public class NumberTests
     {
-        Number test = new Number();
+        readonly Number test = new Number();
 
         [Fact]
         public void VoidOrEmptyAreNotMatched()
