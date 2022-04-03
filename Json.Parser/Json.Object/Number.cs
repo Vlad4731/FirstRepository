@@ -20,7 +20,7 @@
             );
 
             var fraction = new Optional(new Sequence(new Character('.'), digits));
-            var exponent = new Optional(new Sequence(new Any("eE"), new Any("-+"), digits));
+            var exponent = new Optional(new Sequence(new Any("eE"), new Optional(new Any("-+")), digits));
 
             pattern = new Sequence(integer, fraction, exponent);
 
