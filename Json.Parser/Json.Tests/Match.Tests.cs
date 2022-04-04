@@ -12,7 +12,7 @@ namespace Json.Tests
         }
 
         [Fact]
-        public void ReminingTextIsReturned()
+        public void RemainingTextIsReturned()
         {
             SuccessMatch test = new SuccessMatch("text");
             Assert.Equal("text", test.RemainingText());

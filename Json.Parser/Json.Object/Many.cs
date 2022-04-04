@@ -11,12 +11,14 @@
 
         public IMatch Match(string text)
         {
-            while (pattern.Match(text).Success())
+            IMatch match = pattern.Match(text);
+
+            while (match.Success())
             {
-                text = pattern.Match(text).RemainingText();
+                match = pattern.Match(match.RemainingText());
             }
 
-            return new SuccessMatch(pattern.Match(text).RemainingText());
+            return new SuccessMatch(match.RemainingText());
         }
     }
 }
