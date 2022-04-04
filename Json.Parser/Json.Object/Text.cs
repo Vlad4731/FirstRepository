@@ -11,25 +11,25 @@
 
         public IMatch Match(string text)
         {
-            if(text == null || text.Length < prefix.Length)
+            if(!(text == null) && !(text.Length < prefix.Length))
             {
-                return new FailedMatch(text);
-            }
+                string matchedText = "";
 
-            string matchedText = "";
-
-            foreach(char c in prefix)
-            {
-                if(c != text[0])
+                foreach (char c in prefix)
                 {
-                    return new FailedMatch(matchedText + text);
+                    if (c != text[0])
+                    {
+                        return new FailedMatch(matchedText + text);
+                    }
+
+                    matchedText += c;
+                    text = text[1..];
                 }
 
-                matchedText += c;
-                text = text[1..];
+                return new SuccessMatch(text);
             }
 
-            return new SuccessMatch(text);
+            return new FailedMatch(text);
         }
     }
 }
