@@ -11,22 +11,12 @@
 
         public IMatch Match(string text)
         {
-            if(!(text == null) && !(text.Length < prefix.Length))
+            if(!(text == null) && (text.Length >= prefix.Length))
             {
-                string matchedText = "";
-
-                foreach (char c in prefix)
+                if (prefix == text[..prefix.Length])
                 {
-                    if (c != text[0])
-                    {
-                        return new FailedMatch(matchedText + text);
-                    }
-
-                    matchedText += c;
-                    text = text[1..];
+                    return new SuccessMatch(text[prefix.Length..]);
                 }
-
-                return new SuccessMatch(text);
             }
 
             return new FailedMatch(text);
