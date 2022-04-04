@@ -13,9 +13,13 @@
         {
             foreach (var pattern in patterns)
             {
-                if (pattern.Match(text).Success())
+                (string, bool) match = (
+                    pattern.Match(text).RemainingText(),
+                    pattern.Match(text).Success());
+
+                if (match.Item2)
                 {
-                    return new SuccessMatch(pattern.Match(text).RemainingText());
+                    return new SuccessMatch(match.Item1);
                 }
             }
 
