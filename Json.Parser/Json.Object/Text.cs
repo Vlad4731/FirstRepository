@@ -11,15 +11,9 @@
 
         public IMatch Match(string text)
         {
-            if(!(text == null) && (text.Length >= prefix.Length))
-            {
-                if (prefix == text[..prefix.Length])
-                {
-                    return new SuccessMatch(text[prefix.Length..]);
-                }
-            }
-
-            return new FailedMatch(text);
+            return text != null && text.StartsWith(prefix)
+                ? new SuccessMatch(text[prefix.Length..])
+                : new FailedMatch(text);
         }
     }
 }
