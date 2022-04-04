@@ -13,14 +13,18 @@
         {
             string backupText = text;
 
+            (string, bool) match;
+
             foreach (var pattern in patterns)
             {
-                if (!pattern.Match(text).Success())
+                match = (pattern.Match(text).RemainingText(), pattern.Match(text).Success());
+
+                if (!match.Item2)
                 {
                     return new FailedMatch(backupText);
                 }
 
-                text = pattern.Match(text).RemainingText();
+                text = match.Item1;
             }
 
             return new SuccessMatch(text);
