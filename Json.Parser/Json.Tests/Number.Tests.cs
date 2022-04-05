@@ -132,6 +132,7 @@ namespace Json.Tests
         [Fact]
         public void DoesNotEndWithADot()
         {
+            Assert.Equal(".", test.Match("12.").RemainingText());
             Assert.False(test.Match("12.").Success());
         }
 
