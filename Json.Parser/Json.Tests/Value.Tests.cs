@@ -58,6 +58,14 @@ namespace Json.Tests
             Assert.True(test.Match(text).Success());
         }
 
+        [Fact]
+        public void ObjectIsMatched()
+        {
+            string text = "{ \"number\" : 14, \"string\" : \"coffee\" }";
+
+            Assert.True(test.Match(text).Success());
+        }
+
         public static string Quoted(string text)
             => $"\"{text}\"";
 
