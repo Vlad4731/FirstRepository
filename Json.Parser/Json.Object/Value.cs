@@ -34,7 +34,7 @@
             value.Add(array);
             value.Add(valueObject);
 
-            pattern = value;
+            pattern = elements;
         }
 
         public IMatch Match(string text)
