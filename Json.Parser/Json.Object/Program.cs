@@ -7,7 +7,7 @@ namespace Json
         static void Main(string[] args)
         {
 
-            if (args == null || args.Length == 0 || string.IsNullOrEmpty(args[0]))
+            if (args == null || args.Length == 0)
             {
                 Console.WriteLine("The program must be executed using text file containg a JSON string.");
             }
@@ -15,8 +15,9 @@ namespace Json
             string text = System.IO.File.ReadAllText(args[0]);
 
             var value = new Value();
+            IMatch match = value.Match(text);
 
-            if (value.Match(text).Success())
+            if (match.RemainingText() == "" && match.Success())
             {
                 Console.WriteLine("JSON is valid");
             }
@@ -24,9 +25,6 @@ namespace Json
             {
                  Console.WriteLine("JSON is invalid");
             }
-
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
         }
     }
 }
