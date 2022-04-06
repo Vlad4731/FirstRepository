@@ -6,7 +6,7 @@
 
         public Value()
         {
-            var ws = new Any(" \n\t\r");
+            var ws = new Many(new Any(" \n\t\r"));
 
             var value = new Choice(
                 new String(),
@@ -20,7 +20,7 @@
 
             var array = new Choice(
                 new Sequence(new Character('['), ws, new Character(']')),
-                new Sequence(new Character('['), elements, new Character(']'))
+                new Sequence(new Character('['), ws, elements, ws, new Character(']'))
                 );
 
             var member = new Sequence(ws, new String(), ws, new Character(':'), element);

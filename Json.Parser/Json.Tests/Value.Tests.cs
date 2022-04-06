@@ -21,7 +21,7 @@ namespace Json.Tests
         [Fact]
         public void ArrayIsMatched()
         {
-            string text = "[1,23,456,7890]";
+            string text = "[1, 23, 456, 7890]";
             Assert.True(test.Match(text).Success());
             Assert.Equal("", test.Match(text).RemainingText());
         }
