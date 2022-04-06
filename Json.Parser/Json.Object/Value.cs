@@ -24,10 +24,7 @@
                 );
 
             var member = new Sequence(ws, new String(), ws, new Character(':'), element);
-            var members = new Choice(
-                member,
-                new List(member, new Character(','))
-                );
+            var members = new List(member, new Character(','));
 
             var valueObject = new Choice(
                 new Sequence(new Character('{'), ws, new Character('}')),
