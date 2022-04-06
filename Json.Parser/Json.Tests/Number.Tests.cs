@@ -55,14 +55,6 @@ namespace Json.Tests
         }
 
         [Fact]
-        public void ObviousWrongNumberIsNotMatched()
-        {
-            Number test = new Number();
-            Assert.False(test.Match("001.123.E++124").Success());
-            Assert.Equal("001.123.E++124", test.Match("001.123.E++124").RemainingText());
-        }
-
-        [Fact]
         public void CanBeZero()
         {
             Assert.True(test.Match("0").Success());
@@ -98,110 +90,5 @@ namespace Json.Tests
             Assert.False(test.Match(string.Empty).Success());
         }
 
-        [Fact]
-        public void DoesNotStartWithZero()
-        {
-            Assert.False(test.Match("07").Success());
-        }
-
-        [Fact]
-        public void CanBeNegative()
-        {
-            Assert.True(test.Match("-26").Success());
-        }
-
-        [Fact]
-        public void CanBeMinusZero()
-        {
-            Assert.True(test.Match("-0").Success());
-        }
-
-        [Fact]
-        public void CanBeFractional()
-        {
-            Assert.True(test.Match("12.34").Success());
-        }
-
-        [Fact]
-        public void TheFractionCanHaveLeadingZeros()
-        {
-            Assert.True(test.Match("0.00000001").Success());
-            Assert.True(test.Match("10.00000001").Success());
-        }
-
-        [Fact]
-        public void DoesNotEndWithADot()
-        {
-            Assert.Equal(".", test.Match("12.").RemainingText());
-            Assert.False(test.Match("12.").Success());
-        }
-
-        [Fact]
-        public void DoesNotHaveTwoFractionParts()
-        {
-            Assert.False(test.Match("12.34.56").Success());
-        }
-
-        [Fact]
-        public void TheDecimalPartDoesNotAllowLetters()
-        {
-            Assert.False(test.Match("12.3x").Success());
-        }
-
-        [Fact]
-        public void CanHaveAnExponent()
-        {
-            Assert.True(test.Match("12e3").Success());
-        }
-
-        [Fact]
-        public void TheExponentCanStartWithCapitalE()
-        {
-            Assert.True(test.Match("12E3").Success());
-        }
-
-        [Fact]
-        public void TheExponentCanHavePositive()
-        {
-            Assert.True(test.Match("12e+3").Success());
-        }
-
-        [Fact]
-        public void TheExponentCanBeNegative()
-        {
-            Assert.True(test.Match("61e-9").Success());
-        }
-
-        [Fact]
-        public void CanHaveFractionAndExponent()
-        {
-            Assert.True(test.Match("12.34E3").Success());
-        }
-
-        [Fact]
-        public void TheExponentDoesNotAllowLetters()
-        {
-            Assert.False(test.Match("22e3x3").Success());
-        }
-
-        [Fact]
-        public void DoesNotHaveTwoExponents()
-        {
-            Assert.False(test.Match("22e323e33").Success());
-        }
-
-        [Fact]
-        public void TheExponentIsAlwaysComplete()
-        {
-            Assert.False(test.Match("22e").Success());
-            Assert.False(test.Match("22e+").Success());
-            Assert.False(test.Match("23E-").Success());
-        }
-
-        [Fact]
-        public void TheExponentIsAfterTheFraction()
-        {
-            Assert.False(test.Match("22e3.3").Success());
-        }
     }
 }
