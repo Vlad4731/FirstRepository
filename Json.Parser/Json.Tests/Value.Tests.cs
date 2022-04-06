@@ -7,15 +7,10 @@ namespace Json.Tests
         readonly Value test = new Value();
 
         [Fact]
-        public void VoidArrayIsNotMatched()
-        {
-            Assert.False(test.Match(null).Success());
-        }
-
-        [Fact]
-        public void EmptyArrayIsMatched()
+        public void VoidAndEmptyArraysAreMatched()
         {
             Assert.True(test.Match("[ ]").Success());
+            Assert.True(test.Match("null").Success());
         }
 
         [Fact]
