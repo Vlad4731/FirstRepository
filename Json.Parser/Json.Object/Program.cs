@@ -10,7 +10,7 @@ namespace Json
 
             var value = new Value();
 
-            if(value.Match(text).Success())
+            if (value.Match(text).Success())
             {
                 Console.WriteLine("JSON is valid");
             }
