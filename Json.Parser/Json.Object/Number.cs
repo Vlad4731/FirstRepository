@@ -21,11 +21,7 @@
 
         public IMatch Match(string text)
         {
-            IMatch match = pattern.Match(text);
-
-            return match.RemainingText() == "" && match.Success()
-                ? new SuccessMatch(match.RemainingText())
-                : new FailedMatch(match.RemainingText());
+            return pattern.Match(text);
         }
     }
 }
