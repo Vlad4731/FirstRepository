@@ -35,5 +35,12 @@ namespace IntegerArray.Tests
         {
             Assert.Equal(3, array.Element(2));
         }
+
+        [Fact]
+        public void ElementIsSet()
+        {
+            array.SetElement(2, 5);
+            Assert.Equal(5, array.Element(2));
+        }
     }
 }

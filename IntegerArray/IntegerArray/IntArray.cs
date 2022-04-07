@@ -29,8 +29,7 @@ namespace IntegerArray
 
 		public void SetElement(int index, int element)
 		{
-			throw new NotImplementedException();
-			// modifică valoarea elementului de la indexul dat
+			numbers[index] = element;
 		}
 
 		public bool Contains(int element)
