@@ -23,5 +23,11 @@ namespace IntegerArray.Tests
             array.Add(4);
             Assert.Equal(array.numbers, test);
         }
+
+        [Fact]
+        public void ArrayLengthIsReturned()
+        {
+            Assert.Equal(3, array.Count());
+        }
     }
 }

@@ -19,8 +19,7 @@ namespace IntegerArray
 
 		public int Count()
 		{
-			throw new NotImplementedException();
-			// întorce numărul de elemente din șir
+			return numbers.Length;
 		}
 
 		public int Element(int index)
