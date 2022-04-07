@@ -15,5 +15,13 @@ namespace IntegerArray.Tests
             int[] test = { 1, 2, 3 };
             Assert.Equal(array.numbers, test);
         }
+
+        [Fact]
+        public void ElementsAreAddedToArray()
+        {
+            int[] test = { 1, 2, 3, 4 };
+            array.Add(4);
+            Assert.Equal(array.numbers, test);
+        }
     }
 }

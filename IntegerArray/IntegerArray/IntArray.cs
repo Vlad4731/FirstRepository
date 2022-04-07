@@ -4,7 +4,7 @@ namespace IntegerArray
 {
     public class IntArray
     {
-		public readonly int[] numbers;
+		public int[] numbers;
 
 		public IntArray(int[] numbers)
 		{
@@ -13,7 +13,8 @@ namespace IntegerArray
 
 		public void Add(int element)
 		{
-			// adaugă un nou element la sfârșitul șirului
+			Array.Resize(ref numbers, numbers.Length + 1);
+			numbers[^1] = element;
 		}
 
 		public int Count()
