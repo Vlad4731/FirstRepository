@@ -34,8 +34,15 @@ namespace IntegerArray
 
 		public bool Contains(int element)
 		{
-			throw new NotImplementedException();
-			// întoarce true dacă elementul dat există în șir
+			foreach (int n in numbers)
+			{
+				if (n == element)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		public int IndexOf(int element)

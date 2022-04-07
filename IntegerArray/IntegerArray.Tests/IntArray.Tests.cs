@@ -42,5 +42,12 @@ namespace IntegerArray.Tests
             array.SetElement(2, 5);
             Assert.Equal(5, array.Element(2));
         }
+
+        [Fact]
+        public void ArrayContainsElement()
+        {
+            Assert.True(array.Contains(3));
+            Assert.False(array.Contains(5));
+        }
     }
 }
