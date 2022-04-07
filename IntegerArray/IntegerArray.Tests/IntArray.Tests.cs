@@ -1,9 +1,9 @@
 using System;
 using Xunit;
 
-namespace IntArray.Tests
+namespace IntegerArray.Tests
 {
-    public class UnitTest1
+    public class IntArrayTests
     {
         [Fact]
         public void Test1()
