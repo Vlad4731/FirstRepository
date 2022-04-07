@@ -29,5 +29,11 @@ namespace IntegerArray.Tests
         {
             Assert.Equal(3, array.Count());
         }
+
+        [Fact]
+        public void ElementAtIndexIsReturned()
+        {
+            Assert.Equal(3, array.Element(2));
+        }
     }
 }
