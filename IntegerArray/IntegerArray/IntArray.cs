@@ -100,8 +100,7 @@ namespace IntegerArray
 
 		public void RemoveAt(int index)
 		{
-			throw new NotImplementedException();
-			// șterge elementul de pe poziția dată
+			Remove(numbers[index]);
 		}
 	}
 }

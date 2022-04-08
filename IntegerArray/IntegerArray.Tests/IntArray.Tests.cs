@@ -76,5 +76,12 @@ namespace IntegerArray.Tests
             array.Remove(2);
             Assert.Equal(2, array.Count());
         }
+
+        [Fact]
+        public void ElementAtIndexIsRemoved()
+        {
+            array.RemoveAt(1);
+            Assert.Equal(3, array.Element(1));
+        }
     }
 }
