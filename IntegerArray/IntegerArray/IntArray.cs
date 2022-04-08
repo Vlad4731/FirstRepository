@@ -75,8 +75,7 @@ namespace IntegerArray
 
 		public void Clear()
 		{
-			throw new NotImplementedException();
-			// șterge toate elementele din șir
+			Array.Resize(ref numbers, 0);
 		}
 
 		public void Remove(int element)

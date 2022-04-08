@@ -62,5 +62,12 @@ namespace IntegerArray.Tests
             array.Insert(1, 5);
             Assert.Equal(5, array.Element(1));
         }
+
+        [Fact]
+        public void ArrayIsCleared()
+        {
+            array.Clear();
+            Assert.Equal(0, array.Count());
+        }
     }
 }
