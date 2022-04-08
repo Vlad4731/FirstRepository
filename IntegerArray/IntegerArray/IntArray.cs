@@ -4,7 +4,8 @@ namespace IntegerArray
 {
     public class IntArray
     {
-		public int[] numbers;
+		private int[] numbers = { 0, 0, 0, 0 };
+		private int arrayIndex = 0;
 
 		public IntArray(int[] numbers)
 		{
@@ -13,13 +14,18 @@ namespace IntegerArray
 
 		public void Add(int element)
 		{
-			Array.Resize(ref numbers, numbers.Length + 1);
-			numbers[^1] = element;
+			if ((arrayIndex + 1) % 4 == 0)
+			{
+				Array.Resize(ref numbers, numbers.Length + 4);
+			}
+
+			numbers[arrayIndex] = element;
+			arrayIndex += 1;
 		}
 
 		public int Count()
 		{
-			return numbers.Length;
+			return arrayIndex;
 		}
 
 		public int Element(int index)
@@ -60,7 +66,10 @@ namespace IntegerArray
 
 		public void Insert(int index, int element)
 		{
-			Array.Resize(ref numbers, numbers.Length + 1);
+			if ((arrayIndex + 1) % 4 == 0)
+			{
+				Array.Resize(ref numbers, numbers.Length + 4);
+			}
 
 			for (int i = numbers.Length - 1; i >= 0; i--)
             {
@@ -76,6 +85,8 @@ namespace IntegerArray
 		public void Clear()
 		{
 			Array.Resize(ref numbers, 0);
+			Array.Resize(ref numbers, 4);
+			arrayIndex = 0;
 		}
 
 		public void Remove(int element)
@@ -84,18 +95,22 @@ namespace IntegerArray
             {
 				bool match = false;
 
-				if(numbers[i] == element)
+				if (numbers[i] == element)
                 {
 					match = true;
-                }
+					arrayIndex -= 1;
+				}
 				
-				if(match == true && i < numbers.Length - 1)
+				if (match == true)
                 {
 					numbers[i] = numbers[i + 1];
                 }
-            }
+			}
 
-			Array.Resize(ref numbers, numbers.Length - 1);
+			if (arrayIndex <= numbers.Length - 1)
+			{
+				numbers[arrayIndex + 1] = 0;
+			}
 		}
 
 		public void RemoveAt(int index)
