@@ -60,8 +60,17 @@ namespace IntegerArray
 
 		public void Insert(int index, int element)
 		{
-			throw new NotImplementedException();
-			// adaugă un nou element pe poziția dată
+			Array.Resize(ref numbers, numbers.Length + 1);
+
+			for (int i = numbers.Length - 1; i >= 0; i--)
+            {
+				if(i == index)
+                {
+					numbers[i] = element;
+					break;
+                }
+				numbers[i] = numbers[i - 1];
+            }
 		}
 
 		public void Clear()

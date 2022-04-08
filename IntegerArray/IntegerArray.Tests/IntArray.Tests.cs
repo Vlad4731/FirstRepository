@@ -55,5 +55,12 @@ namespace IntegerArray.Tests
         {
             Assert.Equal(2, array.IndexOf(3));
         }
+
+        [Fact]
+        public void ElementIsInsertedCorrectly()
+        {
+            array.Insert(1, 5);
+            Assert.Equal(5, array.Element(1));
+        }
     }
 }
