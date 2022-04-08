@@ -47,9 +47,15 @@ namespace IntegerArray
 
 		public int IndexOf(int element)
 		{
-			throw new NotImplementedException();
-			// întoarce indexul elementului sau -1 dacă elementul nu se
-			// regăsește în șir
+			for (int i = 0; i < numbers.Length; i++)
+			{
+				if (numbers[i] == element)
+				{
+					return i;
+				}
+			}
+
+			return -1;
 		}
 
 		public void Insert(int index, int element)

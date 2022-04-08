@@ -49,5 +49,11 @@ namespace IntegerArray.Tests
             Assert.True(array.Contains(3));
             Assert.False(array.Contains(5));
         }
+
+        [Fact]
+        public void IndexOfElementIsReturned()
+        {
+            Assert.Equal(2, array.IndexOf(3));
+        }
     }
 }
