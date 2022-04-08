@@ -80,8 +80,22 @@ namespace IntegerArray
 
 		public void Remove(int element)
 		{
-			throw new NotImplementedException();
-			// șterge prima apariție a elementului din șir	
+			for(int i = 1; i < numbers.Length; i++)
+            {
+				bool match = false;
+
+				if(numbers[i] == element)
+                {
+					match = true;
+                }
+				
+				if(match == true && i < numbers.Length - 1)
+                {
+					numbers[i] = numbers[i + 1];
+                }
+            }
+
+			Array.Resize(ref numbers, numbers.Length - 1);
 		}
 
 		public void RemoveAt(int index)
