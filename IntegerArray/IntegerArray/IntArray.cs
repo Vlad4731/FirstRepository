@@ -15,7 +15,16 @@ namespace IntegerArray
 		public virtual int this[int index]
 		{
 			get => numbers[index];
-			set => numbers[index] = value;
+			set
+			{
+				if(index == 4)
+                {
+					Array.Resize(ref numbers, numbers.Length + 4);
+				}
+
+				numbers[index] = value;
+				Count = index;
+			}
 		}
 
 
