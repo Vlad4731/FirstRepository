@@ -12,7 +12,7 @@ namespace IntegerArray
 			numbers = new int[4];
 		}
 
-		public int this[int index]
+		public virtual int this[int index]
 		{
 			get => numbers[index];
 			set => numbers[index] = value;
