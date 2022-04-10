@@ -5,38 +5,33 @@ namespace IntegerArray
 	public class IntArray
 	{
 		private int[] numbers;
-		public int Count { get; set; }
+		public int Count { get; set; } = 0;
 
 		public IntArray()
 		{
 			numbers = new int[4];
 		}
 
-		public virtual int this[int index]
+		public int this[int index]
 		{
 			get => numbers[index];
-			set
-			{
-				if(index == 4)
-                {
-					Array.Resize(ref numbers, numbers.Length + 4);
-				}
-
-				numbers[index] = value;
-				Count = index;
-			}
+			set => numbers[index] = value;
 		}
 
 
-		public void Add(int element)
+		public virtual void Add(int element)
 		{
+			ResizeArray();
+			numbers[Count] = element;
+			Count += 1;
+		}
+
+		internal void ResizeArray()
+        {
 			if ((Count + 1) % 4 == 0)
 			{
 				Array.Resize(ref numbers, numbers.Length + 4);
 			}
-
-			numbers[Count] = element;
-			Count += 1;
 		}
 
 		public bool Contains(int element)

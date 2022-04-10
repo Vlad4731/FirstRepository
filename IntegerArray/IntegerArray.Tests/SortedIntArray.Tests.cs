@@ -16,13 +16,23 @@ namespace IntegerArray.Tests
         [Fact]
         public void ElementsAreAddedToArray()
         {
-            for(int i = 0; i < 6; i++)
-            {
-                array[i] = i + 1;
-            }
+            array.Add(1);
+            array.Add(2);
+            array.Add(3);
+            array.Add(4);
+            array.Add(5);
 
             Assert.Equal(5, array.Count);
             Assert.Equal(2, array[1]);
+        }
+
+        [Fact]
+        public void ElementsAreSorted()
+        {
+            array.Add(5);
+            array.Add(1);
+            array.Add(4);
+            Assert.Equal(4, array[1]);
         }
     }
 }
