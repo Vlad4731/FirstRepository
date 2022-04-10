@@ -4,7 +4,7 @@ namespace IntegerArray.Tests
 {
     public class IntArrayTests
     {
-        IntArray array = new IntArray(new int[4]);
+        IntArray array = new IntArray();
 
 
         [Fact]
@@ -15,7 +15,7 @@ namespace IntegerArray.Tests
             array.Add(2);
             array.Add(3);
             array.Add(4);
-            Assert.Equal(array.Count(), test.Length);
+            Assert.Equal(array.Count, test.Length);
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace IntegerArray.Tests
         {
             array.Add(1);
             array.Add(2);
-            Assert.Equal(2, array.Count());
+            Assert.Equal(2, array.Count);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace IntegerArray.Tests
             array.Add(2);
             array.Add(3);
             array.Clear();
-            Assert.Equal(0, array.Count());
+            Assert.Equal(0, array.Count);
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace IntegerArray.Tests
             array.Add(2);
             array.Add(3);
             array.Remove(2);
-            Assert.Equal(2, array.Count());
+            Assert.Equal(2, array.Count);
         }
 
         [Fact]
