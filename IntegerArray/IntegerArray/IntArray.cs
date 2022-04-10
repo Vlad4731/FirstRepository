@@ -21,23 +21,13 @@ namespace IntegerArray
 
 		public void Add(int element)
 		{
-			if ((+1) % 4 == 0)
+			if ((Count + 1) % 4 == 0)
 			{
 				Array.Resize(ref numbers, numbers.Length + 4);
 			}
 
 			numbers[Count] = element;
 			Count += 1;
-		}
-
-		public int Element(int index)
-		{
-			return numbers[index];
-		}
-
-		public void SetElement(int index, int element)
-		{
-			numbers[index] = element;
 		}
 
 		public bool Contains(int element)
@@ -86,8 +76,6 @@ namespace IntegerArray
 
 		public void Clear()
 		{
-			Array.Resize(ref numbers, 0);
-			Array.Resize(ref numbers, 4);
 			Count = 0;
 		}
 

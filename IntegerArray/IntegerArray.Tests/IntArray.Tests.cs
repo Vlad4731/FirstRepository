@@ -6,7 +6,6 @@ namespace IntegerArray.Tests
     {
         IntArray array = new IntArray();
 
-
         [Fact]
         public void ElementsAreAddedToArray()
         {
@@ -32,7 +31,7 @@ namespace IntegerArray.Tests
             array.Add(1);
             array.Add(2);
             array.Add(3);
-            Assert.Equal(3, array.Element(2));
+            Assert.Equal(3, array[2]);
         }
 
         [Fact]
@@ -41,8 +40,8 @@ namespace IntegerArray.Tests
             array.Add(1);
             array.Add(2);
             array.Add(3);
-            array.SetElement(2, 5);
-            Assert.Equal(5, array.Element(2));
+            array[2] = 5;
+            Assert.Equal(5, array[2]);
         }
 
         [Fact]
@@ -71,7 +70,7 @@ namespace IntegerArray.Tests
             array.Add(2);
             array.Add(3);
             array.Insert(1, 5);
-            Assert.Equal(5, array.Element(1));
+            Assert.Equal(5, array[1]);
         }
 
         [Fact]
@@ -101,7 +100,7 @@ namespace IntegerArray.Tests
             array.Add(2);
             array.Add(3);
             array.RemoveAt(1);
-            Assert.Equal(3, array.Element(1));
+            Assert.Equal(3, array[1]);
         }
     }
 }
