@@ -13,9 +13,9 @@ namespace IntegerArray
 			objects = new object[4];
 		}
 
-		public int this[int index]
+		public object this[int index]
 		{
-			get => (int)objects[index];
+			get => objects[index];
 			set => objects[index] = value;
 		}
 
@@ -27,7 +27,10 @@ namespace IntegerArray
 			Count += 1;
 		}
 
-		public IEnumerator GetEnumerator();
+		public IEnumerator GetEnumerator()
+        {
+			return new ObjectIEnumerator(Count);
+        }
 
 		internal void ResizeArray()
         {
