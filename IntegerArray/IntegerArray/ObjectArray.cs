@@ -20,21 +20,19 @@ namespace IntegerArray
 		}
 
 
-		public virtual void Add(int element)
+		public virtual void Add(object element)
 		{
 			ResizeArray();
 			objects[Count] = element;
 			Count += 1;
 		}
 
-		IEnumerator IEnumerable.GetEnumerator()
+		public IEnumerator GetEnumerator()
 		{
-			return GetEnumerator();
-		}
-
-		public ObjectIEnumerator GetEnumerator()
-        {
-			return new ObjectIEnumerator(objects, Count);
+			for(int i = 0; i < Count; i++)
+            {
+				yield return objects[i];
+            }
 		}
 
 		internal void ResizeArray()
@@ -63,7 +61,7 @@ namespace IntegerArray
 			return -1;
 		}
 
-		public void Insert(int index, int element)
+		public void Insert(int index, object element)
 		{
 			if ((Count + 1) % 4 == 0)
 			{

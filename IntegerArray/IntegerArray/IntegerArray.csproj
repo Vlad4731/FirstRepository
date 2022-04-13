@@ -11,4 +11,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="ObjectIEnumerator.cs" />
+	</ItemGroup>
+
 </Project>
