@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 
 namespace IntegerArray
 {
-	public class ObjectArray
+	public class ObjectArray : IEnumerable
 	{
 		private object[] objects;
 		public int Count { get; set; } = 0;
@@ -25,6 +26,8 @@ namespace IntegerArray
 			objects[Count] = element;
 			Count += 1;
 		}
+
+		public IEnumerator GetEnumerator();
 
 		internal void ResizeArray()
         {
