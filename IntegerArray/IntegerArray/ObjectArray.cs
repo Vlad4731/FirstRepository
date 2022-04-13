@@ -27,10 +27,15 @@ namespace IntegerArray
 			Count += 1;
 		}
 
-		public IEnumerator GetEnumerator()
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		public ObjectIEnumerator GetEnumerator()
         {
-			return new ObjectIEnumerator(Count);
-        }
+			return new ObjectIEnumerator(objects, Count);
+		}
 
 		internal void ResizeArray()
         {
