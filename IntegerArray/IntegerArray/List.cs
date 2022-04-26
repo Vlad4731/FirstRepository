@@ -13,7 +13,7 @@ namespace IntegerArray
 			objects = new T[4];
 		}
 
-		public object this[int index]
+		public T this[int index]
 		{
 			get => objects[index];
 			set => objects[index] = (T)value;
