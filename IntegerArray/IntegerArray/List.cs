@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace IntegerArray
 {
-	public class List<T> : IEnumerable
+	public class List<T> : IList<T>
 	{
 		private T[] objects;
 		public int Count { get; set; } = 0;
+
+		public bool IsReadOnly { get; }
 
 		public List()
 		{
@@ -27,7 +30,12 @@ namespace IntegerArray
 			Count += 1;
 		}
 
-		public IEnumerator GetEnumerator()
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return objects.GetEnumerator();
+		}
+
+		public IEnumerator<T> GetEnumerator()
 		{
 			for(int i = 0; i < Count; i++)
             {
@@ -85,11 +93,13 @@ namespace IntegerArray
 			Count = 0;
 		}
 
-		public void Remove(T element)
+		public bool Remove(T element)
 		{
+
+			bool match = false;
+
 			for (int i = 1; i < Count; i++)
 			{
-				bool match = false;
 
 				if (objects[i].Equals(element))
 				{
@@ -107,11 +117,22 @@ namespace IntegerArray
 			{
 				objects[Count + 1] = default;
 			}
+
+			return match;
 		}
 
 		public void RemoveAt(int index)
 		{
 			Remove(objects[index]);
 		}
-	}
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            for(int i = 0; i < Count; i++)
+            {
+				array[arrayIndex] = this[i];
+				arrayIndex++;
+            }
+        }
+    }
 }
