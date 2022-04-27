@@ -49,16 +49,8 @@ namespace IntegerArray
         {
             EnsureCapacity();
 
-            for (int i = Count - 1; i >= 0; i--)
-            {
-                if (i == index)
-                {
-                    numbers[i] = element;
-                    break;
-                }
-
-                numbers[i] = numbers[i - 1];
-            }
+            ShiftRight(index);
+            numbers[index] = element;
         }
 
         public void Clear()
@@ -73,22 +65,34 @@ namespace IntegerArray
 
         public void RemoveAt(int index)
         {
-            for (int i = index; i < Count - 1; i++)
-            {
-                this[i] = this[i + 1];
-            }
-
+            ShiftLeft(index);
             Count--;
         }
 
         internal void EnsureCapacity()
         {
-            if ((Count + 1) % ArraySizeFactor * ArraySizeFactor != 0)
+            if (Count + 1 == numbers.Length)
             {
                 return;
             }
 
             Array.Resize(ref numbers, numbers.Length * ArraySizeFactor);
+        }
+
+        private void ShiftLeft(int index)
+        {
+            for (int i = index; i < Count - 1; i++)
+            {
+                this[i] = this[i + 1];
+            }
+        }
+
+        private void ShiftRight(int index)
+        {
+            for (int i = Count - 1; i > index; i--)
+            {
+                this[i] = this[i - 1];
+            }
         }
     }
 }
