@@ -2,9 +2,9 @@ using Xunit;
 
 namespace IntegerArray.Tests
 {
-    public class ObjectArrayTests
+    public class ObjectArrayCollectionTests
     {
-        ObjectArray array = new ObjectArray();
+        ObjectArrayCollection array = new ObjectArrayCollection();
 
         [Fact]
         public void ElementsAreAddedToArray()

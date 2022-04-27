@@ -7,11 +7,12 @@ namespace IntegerArray
         public SortedIntArray() : base()
         {
         }
-		public override void Add(int element)
-		{
-            ResizeArray();
-            base[Count] = element;
-            Count += 1;
+
+        public override void Add(int element)
+        {
+            EnsureCapacity();
+            this[Count] = element;
+            Count++;
             Sort();
         }
 
@@ -23,7 +24,7 @@ namespace IntegerArray
                 match = false;
                 for (int i = 0; i < Count - 1; i++)
                 {
-                    if (base[i].CompareTo(base[i + 1]) == 1)
+                    if (this[i].CompareTo(this[i + 1]) == 1)
                     {
                         Swap(i, i + 1);
                         match = true;
@@ -34,9 +35,9 @@ namespace IntegerArray
 
         private void Swap(int firstIndex, int secondIndex)
         {
-            int temp = base[firstIndex];
-            base[firstIndex] = base[secondIndex];
-            base[secondIndex] = temp;
+            int temp = this[firstIndex];
+            this[firstIndex] = this[secondIndex];
+            this[secondIndex] = temp;
         }
     }
 }

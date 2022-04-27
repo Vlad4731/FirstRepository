@@ -4,19 +4,19 @@ namespace IntegerArray.Tests
 {
     public class ObjectIENumeratorTests
     {
-        ObjectArray array = new ObjectArray();
+        ObjectArrayCollection array = new ObjectArrayCollection();
 
         [Fact]
         public void ElementsAreAddedToArray()
         {
-            var objArray = new ObjectArray { 1, 2, 3, 4 };
+            var objArray = new ObjectArrayCollection { 1, 2, 3, 4 };
             Assert.Equal(4, objArray[3]);
         }
 
         [Fact]
         public void ForeachWorksWithIntegerObjectArray()
         {
-            var objArray = new ObjectArray { 1, 2, 3, 4, 5 };
+            var objArray = new ObjectArrayCollection { 1, 2, 3, 4, 5 };
             string test = "";
             foreach(var obj in objArray)
             {
@@ -28,7 +28,7 @@ namespace IntegerArray.Tests
         [Fact]
         public void ForeachWorksWithStringObjectArray()
         {
-            var objArray = new ObjectArray { "cat", " ", "mouse" };
+            var objArray = new ObjectArrayCollection { "cat", " ", "mouse" };
             string test = "";
             foreach (var obj in objArray)
             {
@@ -40,7 +40,7 @@ namespace IntegerArray.Tests
         [Fact]
         public void ForeachWorksWithBoolObjectArray()
         {
-            var objArray = new ObjectArray { false, false, true };
+            var objArray = new ObjectArrayCollection { false, false, true };
             string test = "";
             foreach (var obj in objArray)
             {
@@ -52,7 +52,7 @@ namespace IntegerArray.Tests
         [Fact]
         public void ForeachWorksWithCharObjectArray()
         {
-            var objArray = new ObjectArray { 'a', '*', 'd' };
+            var objArray = new ObjectArrayCollection { 'a', '*', 'd' };
             string test = "";
             foreach (var obj in objArray)
             {

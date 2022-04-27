@@ -1,41 +1,33 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace IntegerArray
 {
-    public class List<T> : IList<T>
+    public class ObjectArrayCollection : IEnumerable
     {
-        private T[] objects;
+        private object[] objects;
 
-        public List()
+        public ObjectArrayCollection()
         {
-            objects = new T[4];
+            objects = new object[4];
         }
 
         public int Count { get; set; }
 
-        public bool IsReadOnly { get; }
-
-        public T this[int index]
+        public object this[int index]
         {
             get => objects[index];
             set => objects[index] = value;
         }
 
-        public virtual void Add(T item)
+        public virtual void Add(object element)
         {
             EnsureCapacity();
-            objects[Count] = item;
+            objects[Count] = element;
             Count++;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return objects.GetEnumerator();
-        }
-
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
@@ -43,16 +35,16 @@ namespace IntegerArray
             }
         }
 
-        public bool Contains(T item)
+        public bool Contains(object element)
         {
-            return IndexOf(item) != -1;
+            return IndexOf(element) != -1;
         }
 
-        public int IndexOf(T item)
+        public int IndexOf(object element)
         {
             for (int i = 0; i < Count; i++)
             {
-                if (objects[i].Equals(item))
+                if (objects[i].Equals(element))
                 {
                     return i;
                 }
@@ -61,7 +53,7 @@ namespace IntegerArray
             return -1;
         }
 
-        public void Insert(int index, T item)
+        public void Insert(int index, object element)
         {
             if ((Count + 1) % 4 == 0)
             {
@@ -72,7 +64,7 @@ namespace IntegerArray
             {
                 if (i == index)
                 {
-                    objects[i] = item;
+                    objects[i] = element;
                     break;
                 }
 
@@ -85,14 +77,13 @@ namespace IntegerArray
             Count = 0;
         }
 
-        public bool Remove(T item)
-        {
-            bool match = false;
-
+        public void Remove(object element)
+            {
             for (int i = 1; i < Count; i++)
             {
+                bool match = false;
 
-                if (objects[i].Equals(item))
+                if (objects[i].Equals(element))
                 {
                     match = true;
                     Count--;
@@ -104,26 +95,17 @@ namespace IntegerArray
                 }
             }
 
-            if (Count <= objects.Length - 1)
+            if (Count > objects.Length - 1)
             {
-                objects[Count + 1] = default;
+                return;
             }
 
-            return match;
+            objects[Count + 1] = 0;
         }
 
         public void RemoveAt(int index)
         {
             Remove(objects[index]);
-        }
-
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                array[arrayIndex] = this[i];
-                arrayIndex++;
-            }
         }
 
         internal void EnsureCapacity()
