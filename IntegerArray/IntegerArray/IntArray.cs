@@ -68,33 +68,17 @@ namespace IntegerArray
 
         public void Remove(int element)
         {
-            for (int i = 1; i < Count; i++)
-            {
-                bool match = false;
-
-                if (numbers[i] == element)
-                {
-                    match = true;
-                    Count--;
-                }
-
-                if (match)
-                {
-                    numbers[i] = numbers[i + 1];
-                }
-            }
-
-            if (Count > Count - 1)
-            {
-                return;
-            }
-
-            numbers[Count + 1] = 0;
+            RemoveAt(IndexOf(element));
         }
 
         public void RemoveAt(int index)
         {
-            Remove(numbers[index]);
+            for (int i = index; i < Count - 1; i++)
+            {
+                this[i] = this[i + 1];
+            }
+
+            Count--;
         }
 
         internal void EnsureCapacity()

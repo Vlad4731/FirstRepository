@@ -31,7 +31,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="List.cs" />
+	  <Compile Remove="ObjectArrayCollection.cs" />
 	  <Compile Remove="ObjectIEnumerator.cs" />
+	  <Compile Remove="SortedList.cs" />
 	</ItemGroup>
 
 </Project>
