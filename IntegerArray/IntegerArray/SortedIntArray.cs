@@ -8,12 +8,40 @@ namespace IntegerArray
         {
         }
 
+        public override int this[int index]
+        {
+            get => base[index];
+            set
+                {
+                if (!InRange(index, 1, Count - 1)
+                    || value.CompareTo(base[index - 1]) != -1
+                    || value.CompareTo(base[index + 1]) != 1)
+                {
+                    return;
+                }
+
+                base[index] = value;
+            }
+        }
+
         public override void Add(int element)
         {
             EnsureCapacity();
-            this[Count] = element;
+            base[Count] = element;
             Count++;
             Sort();
+        }
+
+        public override void Insert(int index, int element)
+        {
+            if (!InRange(index, 1, Count - 1)
+                || element.CompareTo(base[index - 1]) != -1
+                || element.CompareTo(base[index + 1]) != 1)
+            {
+                return;
+            }
+
+            base.Insert(index, element);
         }
 
         private void Sort()
@@ -24,7 +52,7 @@ namespace IntegerArray
                 match = false;
                 for (int i = 0; i < Count - 1; i++)
                 {
-                    if (this[i].CompareTo(this[i + 1]) == 1)
+                    if (base[i].CompareTo(base[i + 1]) == 1)
                     {
                         Swap(i, i + 1);
                         match = true;
@@ -33,11 +61,16 @@ namespace IntegerArray
             }
         }
 
+        private bool InRange(int value, int minimum, int maximum)
+        {
+            return value >= minimum && value <= maximum;
+        }
+
         private void Swap(int firstIndex, int secondIndex)
         {
-            int temp = this[firstIndex];
-            this[firstIndex] = this[secondIndex];
-            this[secondIndex] = temp;
+            int temp = base[firstIndex];
+            base[firstIndex] = base[secondIndex];
+            base[secondIndex] = temp;
         }
     }
 }

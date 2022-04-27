@@ -34,5 +34,16 @@ namespace IntegerArray.Tests
             array.Add(4);
             Assert.Equal(4, array[1]);
         }
+
+        [Fact]
+        public void WrongElementCannotBeAdded()
+        {
+            array.Add(1);
+            array.Add(2);
+            array.Add(3);
+            array.Insert(1, 5);
+            array[1] = 5;
+            Assert.Equal(2, array[1]);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace IntegerArray
 
         public int Count { get; set; }
 
-        public int this[int index]
+        public virtual int this[int index]
         {
             get => numbers[index];
             set => numbers[index] = value;
@@ -45,7 +45,7 @@ namespace IntegerArray
             return -1;
         }
 
-        public void Insert(int index, int element)
+        public virtual void Insert(int index, int element)
         {
             EnsureCapacity();
 
