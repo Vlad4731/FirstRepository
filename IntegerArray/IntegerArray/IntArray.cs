@@ -71,7 +71,7 @@ namespace IntegerArray
 
         internal void EnsureCapacity()
         {
-            if (Count + 1 == numbers.Length)
+            if (Count + 1 < numbers.Length)
             {
                 return;
             }
