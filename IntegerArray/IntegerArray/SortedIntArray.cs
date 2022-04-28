@@ -12,15 +12,8 @@ namespace IntegerArray
         {
             get => base[index];
             set
-                {
-                if (!InRange(index, 1, Count - 1)
-                    || value.CompareTo(base[index - 1]) != -1
-                    || value.CompareTo(base[index + 1]) != 1)
-                {
-                    return;
-                }
-
-                base[index] = value;
+            {
+                Insert(index, value);
             }
         }
 
@@ -34,14 +27,33 @@ namespace IntegerArray
 
         public override void Insert(int index, int element)
         {
-            if (!InRange(index, 1, Count - 1)
-                || element.CompareTo(base[index - 1]) != -1
-                || element.CompareTo(base[index + 1]) != 1)
+            if (!CheckCondition(index, element))
             {
                 return;
             }
 
             base.Insert(index, element);
+        }
+
+        private bool CheckCondition(int index, int element)
+        {
+            if (!InRange(index, 0, Count - 1))
+            {
+                return false;
+            }
+
+            if ((index - 1 > -1 && base[index - 1].CompareTo(element) != -1)
+                || (base[index + 1].CompareTo(element) != 1 && (index + 1) < Count))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool InRange(int value, int minimum, int maximum)
+        {
+            return value >= minimum && value <= maximum;
         }
 
         private void Sort()
@@ -59,11 +71,6 @@ namespace IntegerArray
                     }
                 }
             }
-        }
-
-        private bool InRange(int value, int minimum, int maximum)
-        {
-            return value >= minimum && value <= maximum;
         }
 
         private void Swap(int firstIndex, int secondIndex)

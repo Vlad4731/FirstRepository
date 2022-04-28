@@ -45,5 +45,17 @@ namespace IntegerArray.Tests
             array[1] = 5;
             Assert.Equal(2, array[1]);
         }
+
+        [Fact]
+        public void ElementCanBeInserted()
+        {
+            array.Add(1);
+            array.Add(2);
+            array.Add(3);
+            array[2] = 5;
+            array[0] = 5;
+            Assert.Equal(5, array[2]);
+            Assert.Equal(1, array[0]);
+        }
     }
 }
