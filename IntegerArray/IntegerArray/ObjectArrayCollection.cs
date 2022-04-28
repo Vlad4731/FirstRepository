@@ -5,25 +5,26 @@ namespace IntegerArray
 {
     public class ObjectArrayCollection : IEnumerable
     {
-        private object[] objects;
+        private const int ArraySizeFactor = 2;
+        private object[] items;
 
         public ObjectArrayCollection()
         {
-            objects = new object[4];
+            items = new object[ArraySizeFactor * ArraySizeFactor];
         }
 
         public int Count { get; set; }
 
         public object this[int index]
         {
-            get => objects[index];
-            set => objects[index] = value;
+            get => items[index];
+            set => items[index] = value;
         }
 
         public virtual void Add(object element)
         {
             EnsureCapacity();
-            objects[Count] = element;
+            items[Count] = element;
             Count++;
         }
 
@@ -31,7 +32,7 @@ namespace IntegerArray
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return objects[i];
+                yield return items[i];
             }
         }
 
@@ -44,7 +45,7 @@ namespace IntegerArray
         {
             for (int i = 0; i < Count; i++)
             {
-                if (objects[i].Equals(element))
+                if (items[i].Equals(element))
                 {
                     return i;
                 }
@@ -53,23 +54,12 @@ namespace IntegerArray
             return -1;
         }
 
-        public void Insert(int index, object element)
+        public virtual void Insert(int index, object item)
         {
-            if ((Count + 1) % 4 == 0)
-            {
-                Array.Resize(ref objects, objects.Length + 4);
-            }
+            EnsureCapacity();
 
-            for (int i = objects.Length - 1; i >= 0; i--)
-            {
-                if (i == index)
-                {
-                    objects[i] = element;
-                    break;
-                }
-
-                objects[i] = objects[i - 1];
-            }
+            ShiftRight(index);
+            items[index] = item;
         }
 
         public void Clear()
@@ -77,45 +67,44 @@ namespace IntegerArray
             Count = 0;
         }
 
-        public void Remove(object element)
-            {
-            for (int i = 1; i < Count; i++)
-            {
-                bool match = false;
+        public bool Remove(object item)
+        {
+            int initialCount = Count;
+            RemoveAt(IndexOf(item));
 
-                if (objects[i].Equals(element))
-                {
-                    match = true;
-                    Count--;
-                }
-
-                if (match)
-                {
-                    objects[i] = objects[i + 1];
-                }
-            }
-
-            if (Count > objects.Length - 1)
-            {
-                return;
-            }
-
-            objects[Count + 1] = 0;
+            return Count < initialCount;
         }
 
         public void RemoveAt(int index)
         {
-            Remove(objects[index]);
+            ShiftLeft(index);
+            Count--;
         }
 
         internal void EnsureCapacity()
         {
-            if ((Count + 1) % 4 != 0)
+            if (Count + 1 < items.Length)
             {
                 return;
             }
 
-            Array.Resize(ref objects, objects.Length + 4);
+            Array.Resize(ref items, items.Length * ArraySizeFactor);
+        }
+
+        private void ShiftLeft(int index)
+        {
+            for (int i = index; i < Count - 1; i++)
+            {
+                this[i] = this[i + 1];
+            }
+        }
+
+        private void ShiftRight(int index)
+        {
+            for (int i = Count - 1; i > index; i--)
+            {
+                this[i] = this[i - 1];
+            }
         }
     }
 }

@@ -6,11 +6,12 @@ namespace IntegerArray
 {
     public class List<T> : IList<T>
     {
-        private T[] objects;
+        private const byte ArraySizeFactor = 2;
+        private T[] items;
 
         public List()
         {
-            objects = new T[4];
+            items = new T[ArraySizeFactor * ArraySizeFactor];
         }
 
         public int Count { get; set; }
@@ -19,27 +20,27 @@ namespace IntegerArray
 
         public T this[int index]
         {
-            get => objects[index];
-            set => objects[index] = value;
+            get => items[index];
+            set => items[index] = value;
         }
 
         public virtual void Add(T item)
         {
             EnsureCapacity();
-            objects[Count] = item;
+            items[Count] = item;
             Count++;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return objects.GetEnumerator();
+            return items.GetEnumerator();
         }
 
         public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return objects[i];
+                yield return items[i];
             }
         }
 
@@ -52,7 +53,7 @@ namespace IntegerArray
         {
             for (int i = 0; i < Count; i++)
             {
-                if (objects[i].Equals(item))
+                if (items[i].Equals(item))
                 {
                     return i;
                 }
@@ -61,23 +62,12 @@ namespace IntegerArray
             return -1;
         }
 
-        public void Insert(int index, T item)
+        public virtual void Insert(int index, T item)
         {
-            if ((Count + 1) % 4 == 0)
-            {
-                Array.Resize(ref objects, objects.Length + 4);
-            }
+            EnsureCapacity();
 
-            for (int i = objects.Length - 1; i >= 0; i--)
-            {
-                if (i == index)
-                {
-                    objects[i] = item;
-                    break;
-                }
-
-                objects[i] = objects[i - 1];
-            }
+            ShiftRight(index);
+            items[index] = item;
         }
 
         public void Clear()
@@ -87,34 +77,16 @@ namespace IntegerArray
 
         public bool Remove(T item)
         {
-            bool match = false;
+            int initialCount = Count;
+            RemoveAt(IndexOf(item));
 
-            for (int i = 1; i < Count; i++)
-            {
-
-                if (objects[i].Equals(item))
-                {
-                    match = true;
-                    Count--;
-                }
-
-                if (match)
-                {
-                    objects[i] = objects[i + 1];
-                }
-            }
-
-            if (Count <= objects.Length - 1)
-            {
-                objects[Count + 1] = default;
-            }
-
-            return match;
+            return Count < initialCount;
         }
 
         public void RemoveAt(int index)
         {
-            Remove(objects[index]);
+            ShiftLeft(index);
+            Count--;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -128,12 +100,28 @@ namespace IntegerArray
 
         internal void EnsureCapacity()
         {
-            if ((Count + 1) % 4 != 0)
+            if (Count + 1 < items.Length)
             {
                 return;
             }
 
-            Array.Resize(ref objects, objects.Length + 4);
+            Array.Resize(ref items, items.Length * ArraySizeFactor);
+        }
+
+        private void ShiftLeft(int index)
+        {
+            for (int i = index; i < Count - 1; i++)
+            {
+                this[i] = this[i + 1];
+            }
+        }
+
+        private void ShiftRight(int index)
+        {
+            for (int i = Count - 1; i > index; i--)
+            {
+                this[i] = this[i - 1];
+            }
         }
     }
 }

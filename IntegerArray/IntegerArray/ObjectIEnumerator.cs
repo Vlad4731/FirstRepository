@@ -5,14 +5,29 @@ namespace IntegerArray
 {
     public class ObjectIEnumerator : IEnumerator
     {
-        public object[] objects;
+        public object[] Objects;
+        private readonly int count;
         private int position = -1;
-        private int count;
 
         public ObjectIEnumerator(object[] objects, int count)
         {
-            this.objects = objects;
+            this.Objects = objects;
             this.count = count;
+        }
+
+        public object Current
+        {
+            get
+            {
+                try
+                {
+                    return Objects[position];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    throw new InvalidOperationException();
+                }
+            }
         }
 
         public bool MoveNext()
@@ -24,21 +39,6 @@ namespace IntegerArray
         public void Reset()
         {
             position = -1;
-        }
-
-        public object Current
-        {
-            get
-            {
-                try
-                {
-                    return objects[position];
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    throw new InvalidOperationException();
-                }
-            }
         }
     }
 }
