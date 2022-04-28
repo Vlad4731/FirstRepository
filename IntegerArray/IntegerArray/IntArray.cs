@@ -51,6 +51,7 @@ namespace IntegerArray
 
             ShiftRight(index);
             numbers[index] = element;
+            Count++;
         }
 
         public void Clear()
@@ -89,9 +90,9 @@ namespace IntegerArray
 
         private void ShiftRight(int index)
         {
-            for (int i = Count - 1; i > index; i--)
+            for (int i = Count; i > index; i--)
             {
-                this[i] = this[i - 1];
+                numbers[i] = numbers[i - 1];
             }
         }
     }

@@ -13,6 +13,12 @@ namespace IntegerArray
             get => base[index];
             set
             {
+                if ((index - 1 > -1 && base[index - 1].CompareTo(value) != -1)
+                    || (base[index + 1].CompareTo(value) != 1 && (index + 1) < Count))
+                {
+                    return;
+                }
+
                 Insert(index, value);
             }
         }
@@ -43,7 +49,7 @@ namespace IntegerArray
             }
 
             if ((index - 1 > -1 && base[index - 1].CompareTo(element) != -1)
-                || (base[index + 1].CompareTo(element) != 1 && (index + 1) < Count))
+                || (base[index].CompareTo(element) < 1 && (index + 1) < Count))
             {
                 return false;
             }

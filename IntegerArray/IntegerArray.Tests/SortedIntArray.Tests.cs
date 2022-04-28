@@ -36,7 +36,7 @@ namespace IntegerArray.Tests
         }
 
         [Fact]
-        public void WrongElementCannotBeAdded()
+        public void WrongElementCannotBeAddedOrInserted()
         {
             array.Add(1);
             array.Add(2);
@@ -51,11 +51,11 @@ namespace IntegerArray.Tests
         {
             array.Add(1);
             array.Add(2);
-            array.Add(3);
-            array[2] = 5;
-            array[0] = 5;
-            Assert.Equal(5, array[2]);
-            Assert.Equal(1, array[0]);
+            array.Add(5);
+            array.Insert(1, 6);
+            array.Insert(2, 3);
+            Assert.Equal(2, array[1]);
+            Assert.Equal(3, array[2]);
         }
     }
 }
