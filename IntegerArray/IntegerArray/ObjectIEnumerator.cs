@@ -5,35 +5,31 @@ namespace IntegerArray
 {
     public class ObjectIEnumerator : IEnumerator
     {
-        public object[] Objects;
-        private readonly int count;
+        public ObjectArrayCollection Items;
         private int position = -1;
 
-        public ObjectIEnumerator(object[] objects, int count)
+        public ObjectIEnumerator(ObjectArrayCollection items)
         {
-            this.Objects = objects;
-            this.count = count;
+            Items = items;
         }
 
         public object Current
         {
             get
             {
-                try
-                {
-                    return Objects[position];
-                }
-                catch (IndexOutOfRangeException)
+                if (position < 0 || position >= Items.Count)
                 {
                     throw new InvalidOperationException();
                 }
+
+                return Items[position];
             }
         }
 
         public bool MoveNext()
         {
             position++;
-            return position < count;
+            return position < Items.Count;
         }
 
         public void Reset()

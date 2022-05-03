@@ -84,7 +84,7 @@ namespace IntegerArray
         {
             for (int i = index; i < Count - 1; i++)
             {
-                this[i] = this[i + 1];
+                numbers[i] = numbers[i + 1];
             }
         }
 
