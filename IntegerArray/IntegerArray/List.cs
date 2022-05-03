@@ -18,7 +18,7 @@ namespace IntegerArray
 
         public bool IsReadOnly { get; }
 
-        public T this[int index]
+        public virtual T this[int index]
         {
             get => items[index];
             set => items[index] = value;

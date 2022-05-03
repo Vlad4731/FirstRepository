@@ -9,12 +9,43 @@ namespace IntegerArray
         {
         }
 
+        public override T this[int index]
+        {
+            get => base[index];
+            set
+            {
+                if (ElementOrDefault(index - 1, value).CompareTo(value) > 0
+                    || ElementOrDefault(index + 1, value).CompareTo(value) < 0)
+                {
+                    return;
+                }
+
+                Insert(index, value);
+            }
+        }
+
         public override void Add(T item)
         {
             EnsureCapacity();
-            this[Count] = item;
+            base[Count] = item;
             Count++;
             Sort();
+        }
+
+        public override void Insert(int index, T item)
+        {
+            if (ElementOrDefault(index - 1, item).CompareTo(item) > 0
+                || ElementOrDefault(index, item).CompareTo(item) < 0)
+            {
+                return;
+            }
+
+            base.Insert(index, item);
+        }
+
+        private T ElementOrDefault(int index, T defaultValue)
+        {
+            return index >= 0 && index < Count ? base[index] : defaultValue;
         }
 
         private void Sort()
@@ -25,7 +56,7 @@ namespace IntegerArray
                 match = false;
                 for (int i = 0; i < Count - 1; i++)
                 {
-                    if (this[i].CompareTo(this[i + 1]) == 1)
+                    if (base[i].CompareTo(base[i + 1]) == 1)
                     {
                         Swap(i, i + 1);
                         match = true;
@@ -36,9 +67,9 @@ namespace IntegerArray
 
         private void Swap(int firstIndex, int secondIndex)
         {
-            T temp = this[firstIndex];
-            this[firstIndex] = this[secondIndex];
-            this[secondIndex] = temp;
+            T temp = base[firstIndex];
+            base[firstIndex] = base[secondIndex];
+            base[secondIndex] = temp;
         }
     }
 }
