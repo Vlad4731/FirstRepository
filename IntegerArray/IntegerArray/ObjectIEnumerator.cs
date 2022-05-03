@@ -5,31 +5,31 @@ namespace IntegerArray
 {
     public class ObjectIEnumerator : IEnumerator
     {
-        public ObjectArrayCollection Items;
+        private readonly ObjectArrayCollection items;
         private int position = -1;
 
         public ObjectIEnumerator(ObjectArrayCollection items)
         {
-            Items = items;
+            this.items = items;
         }
 
         public object Current
         {
             get
             {
-                if (position < 0 || position >= Items.Count)
+                if (position < 0 || position >= items.Count)
                 {
                     throw new InvalidOperationException();
                 }
 
-                return Items[position];
+                return items[position];
             }
         }
 
         public bool MoveNext()
         {
             position++;
-            return position < Items.Count;
+            return position < items.Count;
         }
 
         public void Reset()
