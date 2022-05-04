@@ -52,6 +52,11 @@ namespace IntegerArray
 
         public virtual void Add(T item)
         {
+            if (items.IsReadOnly)
+            {
+                throw new NotSupportedException(ReadonlyArrayException);
+            }
+
             EnsureCapacity();
             items[Count] = item;
             Count++;
@@ -77,7 +82,6 @@ namespace IntegerArray
 
         public int IndexOf(T item)
         {
-
             for (int i = 0; i < Count; i++)
             {
                 if (items[i].Equals(item))
@@ -91,6 +95,11 @@ namespace IntegerArray
 
         public virtual void Insert(int index, T item)
         {
+            if (items.IsReadOnly)
+            {
+                throw new NotSupportedException(ReadonlyArrayException);
+            }
+
             if (index < 0 || index > Count)
             {
                 throw new ArgumentException(InvalidIndexException);
@@ -104,11 +113,21 @@ namespace IntegerArray
 
         public void Clear()
         {
+            if (items.IsReadOnly)
+            {
+                throw new NotSupportedException(ReadonlyArrayException);
+            }
+
             Count = 0;
         }
 
         public bool Remove(T item)
         {
+            if (items.IsReadOnly)
+            {
+                throw new NotSupportedException(ReadonlyArrayException);
+            }
+
             int initialCount = Count;
             RemoveAt(IndexOf(item));
 
@@ -117,6 +136,11 @@ namespace IntegerArray
 
         public void RemoveAt(int index)
         {
+            if (items.IsReadOnly)
+            {
+                throw new NotSupportedException(ReadonlyArrayException);
+            }
+
             if (index < 0 || index > Count)
             {
                 throw new ArgumentException(InvalidIndexException);
