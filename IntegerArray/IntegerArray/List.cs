@@ -6,6 +6,9 @@ namespace IntegerArray
 {
     public class List<T> : IList<T>
     {
+        private const string InvalidIndexException = "Index was outside the bounds of the list.";
+        private const string ReadonlyArrayException = "List cannot be set, for it is readonly.";
+
         private const byte ArraySizeFactor = 2;
         private T[] items;
 
@@ -20,8 +23,30 @@ namespace IntegerArray
 
         public virtual T this[int index]
         {
-            get => items[index];
-            set => items[index] = value;
+            get
+            {
+                if (index < 0 || index > Count)
+                {
+                    throw new ArgumentException(InvalidIndexException);
+                }
+
+                return items[index];
+            }
+
+            set
+            {
+                if (items.IsReadOnly)
+                {
+                    throw new NotSupportedException(ReadonlyArrayException);
+                }
+
+                if (index < 0 || index > Count)
+                {
+                    throw new ArgumentException(InvalidIndexException);
+                }
+
+                items[index] = value;
+            }
         }
 
         public virtual void Add(T item)
@@ -51,6 +76,7 @@ namespace IntegerArray
 
         public int IndexOf(T item)
         {
+
             for (int i = 0; i < Count; i++)
             {
                 if (items[i].Equals(item))
@@ -64,6 +90,11 @@ namespace IntegerArray
 
         public virtual void Insert(int index, T item)
         {
+            if (index < 0 || index > Count)
+            {
+                throw new ArgumentException(InvalidIndexException);
+            }
+
             EnsureCapacity();
 
             ShiftRight(index);
@@ -85,12 +116,22 @@ namespace IntegerArray
 
         public void RemoveAt(int index)
         {
+            if (index < 0 || index > Count)
+            {
+                throw new ArgumentException(InvalidIndexException);
+            }
+
             ShiftLeft(index);
             Count--;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
+            if (arrayIndex < 0 || arrayIndex > Count)
+            {
+                throw new ArgumentException(InvalidIndexException);
+            }
+
             for (int i = 0; i < Count; i++)
             {
                 array[arrayIndex] = this[i];
