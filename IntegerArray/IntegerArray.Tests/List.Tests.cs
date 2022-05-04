@@ -1,4 +1,5 @@
 using Xunit;
+using System;
 
 namespace IntegerArray.Tests
 {
@@ -50,8 +51,8 @@ namespace IntegerArray.Tests
             array.Add(1);
             array.Add(2);
             array.Add(3);
-            Assert.True(array.Contains(3));
-            Assert.False(array.Contains(5));
+            Assert.Contains(3, array);
+            Assert.DoesNotContain(5, array);
         }
 
         [Fact]
@@ -101,6 +102,55 @@ namespace IntegerArray.Tests
             array.Add(3);
             array.RemoveAt(1);
             Assert.Equal(3, array[1]);
+        }
+
+        [Fact]
+        public void GetSet_InvalidIndexException_IsCought()
+        {
+            array.Add(1);
+            Assert.Throws<ArgumentException>(() => array[10]);
+            Assert.Throws<ArgumentException>(() => array[10] = 1);
+        }
+
+        [Fact]
+        public void Insert_InvalidIndexException_IsCought()
+        {
+            array.Add(1);
+            Assert.Throws<ArgumentException>(() => array.Insert(3,3));
+        }
+
+        [Fact]
+        public void RemoveAt_InvalidIndexException_IsCought()
+        {
+            array.Add(1);
+            Assert.Throws<ArgumentException>(() => array.Remove(3));
+        }
+
+        [Fact]
+        public void CopyTo_InvalidIndexException_IsCought()
+        {
+            array.Add(1);
+            array.Add(2);
+            array.Add(3);
+            int[] newArray = new int[2];
+            Assert.Throws<ArgumentException>(() => array.CopyTo(newArray, 5));
+        }
+
+        [Fact]
+        public void CopyTo_OverflowException_IsCought()
+        {
+            array.Add(1);
+            array.Add(2);
+            array.Add(3);
+            int[] newArray = new int[2];
+            Assert.Throws<OverflowException>(() => array.CopyTo(newArray, 0));
+        }
+
+        [Fact]
+        public void CopyTo_EmptyListException_IsCought()
+        {
+            int[] newArray = new int[2];
+            Assert.Throws<OverflowException>(() => array.CopyTo(newArray, 0));
         }
     }
 }
