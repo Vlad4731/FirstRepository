@@ -10,9 +10,9 @@ namespace IntegerArray
         private const string ReadonlyArrayException = "List cannot be set, for it is readonly.";
         private const string InsufficientLengthException = "Destination array has insufficient capacity.";
 
-        private readonly T[] items;
+        private readonly List<T> items;
 
-        public ReadonlyList(T[] items)
+        public ReadonlyList(List<T> items)
         {
             this.items = items;
         }
@@ -102,7 +102,7 @@ namespace IntegerArray
                 throw new ArgumentException(InvalidIndexException);
             }
 
-            if (array.Length < items.Length - arrayIndex)
+            if (array.Length < items.Count - arrayIndex)
             {
                 throw new OverflowException(InsufficientLengthException);
             }

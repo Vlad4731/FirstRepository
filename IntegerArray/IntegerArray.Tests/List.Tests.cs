@@ -123,7 +123,7 @@ namespace IntegerArray.Tests
         public void RemoveAt_InvalidIndexException_IsCought()
         {
             array.Add(1);
-            Assert.Throws<ArgumentException>(() => array.Remove(3));
+            Assert.Throws<ArgumentException>(() => array.RemoveAt(3));
         }
 
         [Fact]
