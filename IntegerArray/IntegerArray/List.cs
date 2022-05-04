@@ -6,15 +6,14 @@ namespace IntegerArray
 {
     public class List<T> : IList<T>
     {
-        private const string InvalidIndexException = "Index was outside the bounds of the list.";
-        private const string InsufficientLengthException = "Destination array has insufficient capacity.";
+        internal T[] Items;
 
+        private const string InvalidIndexException = "Index was outside the bounds of the list.";
         private const byte ArraySizeFactor = 2;
-        private T[] items;
 
         public List()
         {
-            items = new T[ArraySizeFactor * ArraySizeFactor];
+            Items = new T[ArraySizeFactor * ArraySizeFactor];
         }
 
         public int Count { get; set; }
@@ -25,42 +24,34 @@ namespace IntegerArray
         {
             get
             {
-                if (index < 0 || index > Count)
-                {
-                    throw new ArgumentException(InvalidIndexException);
-                }
-
-                return items[index];
+                CheckIndexOutOfBoundsException(index);
+                return Items[index];
             }
 
             set
             {
-                if (index < 0 || index > Count)
-                {
-                    throw new ArgumentException(InvalidIndexException);
-                }
-
-                items[index] = value;
+                CheckIndexOutOfBoundsException(index);
+                Items[index] = value;
             }
         }
 
         public virtual void Add(T item)
         {
             EnsureCapacity();
-            items[Count] = item;
+            Items[Count] = item;
             Count++;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return items.GetEnumerator();
+            return Items.GetEnumerator();
         }
 
         public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return items[i];
+                yield return Items[i];
             }
         }
 
@@ -73,7 +64,7 @@ namespace IntegerArray
         {
             for (int i = 0; i < Count; i++)
             {
-                if (items[i].Equals(item))
+                if (Items[i].Equals(item))
                 {
                     return i;
                 }
@@ -84,23 +75,19 @@ namespace IntegerArray
 
         public virtual void Insert(int index, T item)
         {
-            if (index < 0 || index > Count)
-            {
-                throw new ArgumentException(InvalidIndexException);
-            }
-
+            CheckIndexOutOfBoundsException(index);
             EnsureCapacity();
 
             ShiftRight(index);
-            items[index] = item;
+            Items[index] = item;
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             Count = 0;
         }
 
-        public bool Remove(T item)
+        public virtual bool Remove(T item)
         {
             int initialCount = Count;
             RemoveAt(IndexOf(item));
@@ -108,32 +95,19 @@ namespace IntegerArray
             return Count < initialCount;
         }
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
-            if (index < 0 || index > Count)
-            {
-                throw new ArgumentException(InvalidIndexException);
-            }
-
             ShiftLeft(index);
             Count--;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if (arrayIndex < 0 || arrayIndex > Count)
-            {
-                throw new ArgumentException(InvalidIndexException);
-            }
+            CheckIndexOutOfBoundsException(arrayIndex);
 
-            if (array.Length < items.Length - arrayIndex)
+            if (array.Length < Items.Length - arrayIndex)
             {
-                throw new OverflowException(InsufficientLengthException);
-            }
-
-            if (Count == 0)
-            {
-                throw new ArgumentException("List cannot be copied, for it is empty.");
+                throw new OverflowException("Destination array has insufficient capacity.");
             }
 
             for (int i = 0; i < Count; i++)
@@ -145,12 +119,12 @@ namespace IntegerArray
 
         internal void EnsureCapacity()
         {
-            if (Count + 1 < items.Length)
+            if (Count + 1 < Items.Length)
             {
                 return;
             }
 
-            Array.Resize(ref items, items.Length * ArraySizeFactor);
+            Array.Resize(ref Items, Items.Length * ArraySizeFactor);
         }
 
         private void ShiftLeft(int index)
@@ -167,6 +141,16 @@ namespace IntegerArray
             {
                 this[i] = this[i - 1];
             }
+        }
+
+        private void CheckIndexOutOfBoundsException(int index)
+        {
+            if (index >= 0 && index <= Count)
+            {
+                return;
+            }
+
+            throw new ArgumentException(InvalidIndexException);
         }
     }
 }

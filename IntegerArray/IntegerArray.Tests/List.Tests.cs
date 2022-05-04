@@ -120,13 +120,6 @@ namespace IntegerArray.Tests
         }
 
         [Fact]
-        public void RemoveAt_InvalidIndexException_IsCought()
-        {
-            array.Add(1);
-            Assert.Throws<ArgumentException>(() => array.RemoveAt(3));
-        }
-
-        [Fact]
         public void CopyTo_InvalidIndexException_IsCought()
         {
             array.Add(1);
@@ -146,11 +139,5 @@ namespace IntegerArray.Tests
             Assert.Throws<OverflowException>(() => array.CopyTo(newArray, 0));
         }
 
-        [Fact]
-        public void CopyTo_EmptyListException_IsCought()
-        {
-            int[] newArray = new int[2];
-            Assert.Throws<OverflowException>(() => array.CopyTo(newArray, 0));
-        }
     }
 }
