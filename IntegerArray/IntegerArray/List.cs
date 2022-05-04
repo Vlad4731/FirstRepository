@@ -7,7 +7,6 @@ namespace IntegerArray
     public class List<T> : IList<T>
     {
         private const string InvalidIndexException = "Index was outside the bounds of the list.";
-        private const string ReadonlyArrayException = "List cannot be set, for it is readonly.";
         private const string InsufficientLengthException = "Destination array has insufficient capacity.";
 
         private const byte ArraySizeFactor = 2;
@@ -36,11 +35,6 @@ namespace IntegerArray
 
             set
             {
-                if (items.IsReadOnly)
-                {
-                    throw new NotSupportedException(ReadonlyArrayException);
-                }
-
                 if (index < 0 || index > Count)
                 {
                     throw new ArgumentException(InvalidIndexException);
@@ -52,11 +46,6 @@ namespace IntegerArray
 
         public virtual void Add(T item)
         {
-            if (items.IsReadOnly)
-            {
-                throw new NotSupportedException(ReadonlyArrayException);
-            }
-
             EnsureCapacity();
             items[Count] = item;
             Count++;
@@ -95,11 +84,6 @@ namespace IntegerArray
 
         public virtual void Insert(int index, T item)
         {
-            if (items.IsReadOnly)
-            {
-                throw new NotSupportedException(ReadonlyArrayException);
-            }
-
             if (index < 0 || index > Count)
             {
                 throw new ArgumentException(InvalidIndexException);
@@ -113,21 +97,11 @@ namespace IntegerArray
 
         public void Clear()
         {
-            if (items.IsReadOnly)
-            {
-                throw new NotSupportedException(ReadonlyArrayException);
-            }
-
             Count = 0;
         }
 
         public bool Remove(T item)
         {
-            if (items.IsReadOnly)
-            {
-                throw new NotSupportedException(ReadonlyArrayException);
-            }
-
             int initialCount = Count;
             RemoveAt(IndexOf(item));
 
@@ -136,11 +110,6 @@ namespace IntegerArray
 
         public void RemoveAt(int index)
         {
-            if (items.IsReadOnly)
-            {
-                throw new NotSupportedException(ReadonlyArrayException);
-            }
-
             if (index < 0 || index > Count)
             {
                 throw new ArgumentException(InvalidIndexException);
@@ -160,6 +129,11 @@ namespace IntegerArray
             if (array.Length < items.Length - arrayIndex)
             {
                 throw new OverflowException(InsufficientLengthException);
+            }
+
+            if (Count == 0)
+            {
+                throw new ArgumentException("List cannot be copied, for it is empty.");
             }
 
             for (int i = 0; i < Count; i++)
