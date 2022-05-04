@@ -8,6 +8,7 @@ namespace IntegerArray
     {
         private const string InvalidIndexException = "Index was outside the bounds of the list.";
         private const string ReadonlyArrayException = "List cannot be set, for it is readonly.";
+        private const string InsufficientLengthException = "Destination array has insufficient capacity.";
 
         private const byte ArraySizeFactor = 2;
         private T[] items;
@@ -130,6 +131,11 @@ namespace IntegerArray
             if (arrayIndex < 0 || arrayIndex > Count)
             {
                 throw new ArgumentException(InvalidIndexException);
+            }
+
+            if (array.Length < items.Length - arrayIndex)
+            {
+                throw new OverflowException(InsufficientLengthException);
             }
 
             for (int i = 0; i < Count; i++)
