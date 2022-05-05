@@ -105,6 +105,17 @@ namespace IntegerArray.Tests
         }
 
         [Fact]
+        public void CopyTo_DestinationArrayHasSufficientCapacity()
+        {
+            array.Add(1);
+            array.Add(2);
+            array.Add(3);
+            int[] newArray = new int[3];
+            array.CopyTo(newArray, 0);
+            Assert.Equal(2, newArray[1]);
+        }
+
+        [Fact]
         public void GetSet_InvalidIndexException_IsCought()
         {
             array.Add(1);
@@ -117,16 +128,6 @@ namespace IntegerArray.Tests
         {
             array.Add(1);
             Assert.Throws<ArgumentException>(() => array.Insert(3,3));
-        }
-
-        [Fact]
-        public void CopyTo_InvalidIndexException_IsCought()
-        {
-            array.Add(1);
-            array.Add(2);
-            array.Add(3);
-            int[] newArray = new int[2];
-            Assert.Throws<ArgumentException>(() => array.CopyTo(newArray, 5));
         }
 
         [Fact]

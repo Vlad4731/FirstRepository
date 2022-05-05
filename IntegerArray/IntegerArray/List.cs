@@ -103,9 +103,7 @@ namespace IntegerArray
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            CheckIndexOutOfBoundsException(arrayIndex);
-
-            if (array.Length < Items.Length - arrayIndex)
+            if (arrayIndex + Count > array.Length)
             {
                 throw new OverflowException("Destination array has insufficient capacity.");
             }
