@@ -6,14 +6,14 @@ namespace IntegerArray
 {
     public class List<T> : IList<T>
     {
-        internal T[] Items;
-
         private const string InvalidIndexException = "Index was outside the bounds of the list.";
         private const byte ArraySizeFactor = 2;
 
+        private T[] items;
+
         public List()
         {
-            Items = new T[ArraySizeFactor * ArraySizeFactor];
+            items = new T[ArraySizeFactor * ArraySizeFactor];
         }
 
         public int Count { get; set; }
@@ -25,33 +25,33 @@ namespace IntegerArray
             get
             {
                 CheckIndexOutOfBoundsException(index);
-                return Items[index];
+                return items[index];
             }
 
             set
             {
                 CheckIndexOutOfBoundsException(index);
-                Items[index] = value;
+                items[index] = value;
             }
         }
 
         public virtual void Add(T item)
         {
             EnsureCapacity();
-            Items[Count] = item;
+            items[Count] = item;
             Count++;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return Items.GetEnumerator();
+            return items.GetEnumerator();
         }
 
         public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return Items[i];
+                yield return items[i];
             }
         }
 
@@ -64,7 +64,7 @@ namespace IntegerArray
         {
             for (int i = 0; i < Count; i++)
             {
-                if (Items[i].Equals(item))
+                if (items[i].Equals(item))
                 {
                     return i;
                 }
@@ -79,15 +79,15 @@ namespace IntegerArray
             EnsureCapacity();
 
             ShiftRight(index);
-            Items[index] = item;
+            items[index] = item;
         }
 
-        public virtual void Clear()
+        public void Clear()
         {
             Count = 0;
         }
 
-        public virtual bool Remove(T item)
+        public bool Remove(T item)
         {
             int initialCount = Count;
             RemoveAt(IndexOf(item));
@@ -95,7 +95,7 @@ namespace IntegerArray
             return Count < initialCount;
         }
 
-        public virtual void RemoveAt(int index)
+        public void RemoveAt(int index)
         {
             ShiftLeft(index);
             Count--;
@@ -117,12 +117,12 @@ namespace IntegerArray
 
         internal void EnsureCapacity()
         {
-            if (Count + 1 < Items.Length)
+            if (Count + 1 < items.Length)
             {
                 return;
             }
 
-            Array.Resize(ref Items, Items.Length * ArraySizeFactor);
+            Array.Resize(ref items, items.Length * ArraySizeFactor);
         }
 
         private void ShiftLeft(int index)
