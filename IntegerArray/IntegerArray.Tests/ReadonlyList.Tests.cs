@@ -5,7 +5,7 @@ namespace IntegerArray.Tests
 {
     public class ReadonlyListTests
     {
-        readonly ReadonlyList<int> readonlyArray = new ReadonlyList<int>(new List<int> { 1, 2 });
+        readonly ReadonlyList<int> readonlyArray = new ReadonlyList<int>(new int[] { 1, 2 });
 
         [Fact]
         public void Set_ReadonlyArrayException_IsCought()

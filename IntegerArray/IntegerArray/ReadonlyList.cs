@@ -6,12 +6,11 @@ namespace IntegerArray
 {
     public class ReadonlyList<T> : IList<T>
     {
-        private const string InvalidIndexException = "Index was outside the bounds of the list.";
         private const string ReadonlyArrayException = "List cannot be set, for it is readonly.";
 
-        private readonly List<T> list;
+        private readonly IList<T> list;
 
-        public ReadonlyList(List<T> list)
+        public ReadonlyList(IList<T> list)
         {
             this.list = list;
         }
@@ -22,23 +21,12 @@ namespace IntegerArray
 
         public T this[int index]
         {
-            get
-            {
-                if (index < 0 || index > Count)
-                {
-                    throw new ArgumentException(InvalidIndexException);
-                }
+            get => list[index];
 
-                return list[index];
-            }
-
-            set
-            {
-                throw new NotSupportedException(ReadonlyArrayException);
-            }
+            set => throw new NotSupportedException(ReadonlyArrayException);
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)list).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => list.GetEnumerator();
 
         public IEnumerator<T> GetEnumerator() => list.GetEnumerator();
 
