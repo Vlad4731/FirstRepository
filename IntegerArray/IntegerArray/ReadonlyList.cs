@@ -16,9 +16,9 @@ namespace IntegerArray
             this.list = list;
         }
 
-        public int Count { get; set; }
+        public int Count => list.Count;
 
-        public bool IsReadOnly { get; }
+        public bool IsReadOnly { get => true; }
 
         public T this[int index]
         {
@@ -29,7 +29,7 @@ namespace IntegerArray
                     throw new ArgumentException(InvalidIndexException);
                 }
 
-                return this[index];
+                return list[index];
             }
 
             set
@@ -38,50 +38,15 @@ namespace IntegerArray
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return list.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)list).GetEnumerator();
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                yield return list[i];
-            }
-        }
+        public IEnumerator<T> GetEnumerator() => list.GetEnumerator();
 
-        public bool Contains(T item)
-        {
-            return IndexOf(item) != -1;
-        }
+        public bool Contains(T item) => list.Contains(item);
 
-        public int IndexOf(T item)
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                if (list[i].Equals(item))
-                {
-                    return i;
-                }
-            }
+        public int IndexOf(T item) => list.IndexOf(item);
 
-            return -1;
-        }
-
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            if (arrayIndex + Count > array.Length)
-            {
-                throw new OverflowException("Destination array has insufficient capacity.");
-            }
-
-            for (int i = 0; i < Count; i++)
-            {
-                array[arrayIndex] = this[i];
-                arrayIndex++;
-            }
-        }
+        public void CopyTo(T[] array, int arrayIndex) => list.CopyTo(array, arrayIndex);
 
         public void Add(T item)
         {
