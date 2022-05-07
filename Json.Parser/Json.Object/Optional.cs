@@ -1,6 +1,6 @@
 ﻿namespace Json
 {
-    public class Optional :IPattern
+    public class Optional : IPattern
     {
         private IPattern pattern;
 

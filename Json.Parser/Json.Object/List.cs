@@ -4,7 +4,7 @@
     {
         private readonly IPattern pattern;
 
-        public List(IPattern element, IPattern separator)
+        public List (IPattern element, IPattern separator)
         {
             pattern = new Optional(
                 new Sequence(
@@ -12,7 +12,6 @@
                     new Many(new Sequence(separator, element))
                     )
                 );
-            //Oare nu ar putea fi folosit un OneOrMany aici?
         }
 
         public IMatch Match(string text)
