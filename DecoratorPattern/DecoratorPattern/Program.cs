@@ -5,11 +5,7 @@ namespace DecoratorPattern
 {
     public class Program
     {
-        public static string Adress
-        {
-            get => @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
-            set => Adress = value;
-        }
+        public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
 
         static void Main()
         {

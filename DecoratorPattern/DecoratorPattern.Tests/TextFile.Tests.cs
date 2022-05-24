@@ -4,7 +4,7 @@ using static DecoratorPattern.Program;
 
 namespace DecoratorPattern.Tests
 {
-    public class ProgramTests
+    public class TextFileTests
     {
         [Fact]
         public void TextFile_IsRead_ReturnsText()
