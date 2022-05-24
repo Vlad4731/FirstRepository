@@ -3,7 +3,7 @@ using System.IO;
 
 namespace DecoratorPattern
 {
-    public class TextFile
+    public class TextFile : ITextFile
     {
         public TextFile(string adress)
         {

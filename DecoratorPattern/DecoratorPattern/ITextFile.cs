@@ -1,6 +1,6 @@
 ﻿namespace DecoratorPattern
 {
-    interface ITextFile
+    public interface ITextFile
     {
         string Adress { get; }
 

@@ -9,8 +9,9 @@ namespace DecoratorPattern
 
         static void Main()
         {
-            Adress = Console.ReadLine();
-            Console.WriteLine(File.ReadAllText(Adress));
+            TextFile textFile = new TextFile(Adress);
+            EncryptDecorator encrypt = new EncryptDecorator(textFile);
+            encrypt.WriteToFile();
         }
     }
 }

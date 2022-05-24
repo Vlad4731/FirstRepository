@@ -2,11 +2,11 @@
 
 namespace DecoratorPattern
 {
-    internal class TextFileDecorator
+    public class TextFileDecorator : ITextFile
     {
-        private readonly TextFile textFile;
+        private readonly ITextFile textFile;
 
-        public TextFileDecorator(TextFile textFile)
+        public TextFileDecorator(ITextFile textFile)
         {
             this.textFile = textFile;
         }
