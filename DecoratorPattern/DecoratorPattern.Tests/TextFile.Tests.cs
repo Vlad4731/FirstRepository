@@ -6,18 +6,20 @@ namespace DecoratorPattern.Tests
 {
     public class TextFileTests
     {
+        TextFile textFile = new TextFile(Adress);
+
         [Fact]
         public void TextFile_IsRead_ReturnsText()
         {
             Assert.Equal("Gazpacho",
-                File.ReadAllText(Adress));
+                textFile.ReadFromFile());
         }
 
         [Fact]
         public void TextFile_IsWritten_ReturnsNewText()
         {
-            File.WriteAllText(Adress, "Sombrero");
-            Assert.Equal("Sombrero", File.ReadAllText(Adress));
+            textFile.WriteToFile();
+            Assert.Equal("Sombrero", textFile.ReadFromFile());
         }
     }
 }

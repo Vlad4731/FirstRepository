@@ -17,9 +17,9 @@ namespace DecoratorPattern
             return File.ReadAllText(Adress);
         }
 
-        public void WriteToFile(string text)
+        public void WriteToFile()
         {
-            File.WriteAllText(Adress, text);
+            File.WriteAllText(Adress, Console.ReadLine());
         }
     }
 }
