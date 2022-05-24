@@ -11,7 +11,8 @@ namespace DecoratorPattern
         {
             TextFile textFile = new TextFile(Adress);
             EncryptDecorator encrypt = new EncryptDecorator(textFile);
-            encrypt.WriteToFile();
+            GzipDecorator zippedFile = new GzipDecorator(textFile);
+            zippedFile.WriteToFile();
         }
     }
 }
