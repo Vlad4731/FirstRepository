@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 
 namespace DecoratorPattern
 {
@@ -6,41 +8,40 @@ namespace DecoratorPattern
     {
         public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
 
-        public static void FileManipulation(ITextFile text, string input)
+        public static string ReadFromFile()
         {
-            Console.WriteLine("Type text to be printed to file.");
+            string fileText = "";
 
-            switch (input)
+            using FileStream fileStream = File.OpenRead(Adress);
+            byte[] bytes = new byte[1024];
+            UTF8Encoding utf8 = new UTF8Encoding(true);
+            while (fileStream.Read(bytes, 0, bytes.Length) > 0)
             {
-                case "1":
-                    ITextFile encrypt = new EncryptDecorator(text);
-                    encrypt.WriteToFile();
-                    break;
-
-                case "2":
-                    ITextFile gzip = new GzipDecorator(text);
-                    gzip.WriteToFile();
-                    break;
-
-                case "3":
-                    ITextFile both = new GzipDecorator(text);
-                    both = new EncryptDecorator(both);
-                    both.WriteToFile();
-                    break;
-
-                default:
-                    text.WriteToFile();
-                    break;
+               fileText += utf8.GetString(bytes);
             }
+
+            fileStream.Close();
+
+            return fileText;
+        }
+
+        public static void WriteToFile(string inputString)
+        {
+            using FileStream fileStream = File.OpenWrite(Adress);
+            AddText(fileStream, inputString);
+        }
+
+        private static void AddText(FileStream fileStream, string value)
+        {
+            byte[] info = new UTF8Encoding(true).GetBytes(value);
+            fileStream.Write(info, 0, info.Length);
+            fileStream.Close();
         }
 
         static void Main()
         {
-            ITextFile textFile = new TextFile(Console.ReadLine());
-
-            Console.WriteLine("Write 0 for plain text output, 1 for encrypted text, 2 for gzipped text and 3 for both encrypted and gzipped");
-
-            FileManipulation(textFile, Console.ReadLine());
+            WriteToFile("Gazpacho");
+            Console.WriteLine(ReadFromFile());
         }
     }
 }
