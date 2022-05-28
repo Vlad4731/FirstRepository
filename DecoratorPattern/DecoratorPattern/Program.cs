@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace DecoratorPattern
@@ -8,11 +10,34 @@ namespace DecoratorPattern
     {
         public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
 
-        public static string ReadFromFile()
+        public static void FileManipulation(string[] args)
+        {
+            FileStream fileStream;
+
+            if (args.Length <= 1)
+            {
+                return;
+            }
+
+            Adress = args[0];
+
+            if (args[1] == "0")
+            {
+                fileStream = File.OpenRead(Adress);
+                Console.WriteLine(ReadFromFile(fileStream));
+            }
+            else if (args[1] == "1")
+            {
+                fileStream = File.OpenWrite(Adress);
+                Console.WriteLine("Introduceti textul ce urmeaza a fi scris in fisier:");
+                WriteToFile(fileStream, Console.ReadLine());
+            }
+        }
+
+        public static string ReadFromFile(FileStream fileStream)
         {
             string fileText = "";
 
-            using FileStream fileStream = File.OpenRead(Adress);
             byte[] bytes = new byte[1024];
             UTF8Encoding utf8 = new UTF8Encoding(true);
             while (fileStream.Read(bytes, 0, bytes.Length) > 0)
@@ -25,9 +50,9 @@ namespace DecoratorPattern
             return fileText;
         }
 
-        public static void WriteToFile(string inputString)
+        public static void WriteToFile(FileStream fileStream, string inputString)
         {
-            using FileStream fileStream = File.OpenWrite(Adress);
+            File.WriteAllText(Adress, string.Empty);
             AddText(fileStream, inputString);
         }
 
@@ -38,10 +63,21 @@ namespace DecoratorPattern
             fileStream.Close();
         }
 
-        static void Main()
+        private static void CompressFile(FileStream originalFileStream)
         {
-            WriteToFile("Gazpacho");
-            Console.WriteLine(ReadFromFile());
+            using FileStream compressedFileStream = File.Create(Adress + ".zip");
+            using var compressor = new GZipStream(compressedFileStream, CompressionMode.Compress);
+            originalFileStream.CopyTo(compressor);
+        }
+
+        private static void EncryptFile(FileStream originalFileStream)
+        {
+            using CryptoStream crypto = new CryptoStream(originalFileStream);
+        }
+
+        static void Main(string[] args)
+        {
+            FileManipulation(args);
         }
     }
 }
