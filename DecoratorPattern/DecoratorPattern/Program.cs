@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace DecoratorPattern
@@ -28,8 +27,27 @@ namespace DecoratorPattern
             }
             else if (args[1] == "1")
             {
-                fileStream = File.OpenWrite(Adress);
+                fileStream = File.Open(Adress, FileMode.Open);
                 Console.WriteLine("Introduceti textul ce urmeaza a fi scris in fisier:");
+
+                if (args[2] == "1")
+                {
+                    CompressFile(WriteToFile(fileStream, Console.ReadLine()));
+                    return;
+                }
+
+                if (args[2] == "2")
+                {
+                    Encrypt(WriteToFile(fileStream, Console.ReadLine()));
+                    return;
+                }
+
+                if (args[2] == "3")
+                {
+                    CompressFile(Encrypt(WriteToFile(fileStream, Console.ReadLine())));
+                    return;
+                }
+
                 WriteToFile(fileStream, Console.ReadLine());
             }
         }
@@ -50,29 +68,28 @@ namespace DecoratorPattern
             return fileText;
         }
 
-        public static void WriteToFile(FileStream fileStream, string inputString)
+        public static FileStream WriteToFile(FileStream fileStream, string inputString)
         {
-            File.WriteAllText(Adress, string.Empty);
-            AddText(fileStream, inputString);
+            using StreamWriter writeFile = new StreamWriter(fileStream);
+            writeFile.WriteLine(inputString);
+            return fileStream;
         }
 
-        private static void AddText(FileStream fileStream, string value)
+        private static FileStream CompressFile(FileStream originalFileStream)
         {
-            byte[] info = new UTF8Encoding(true).GetBytes(value);
-            fileStream.Write(info, 0, info.Length);
-            fileStream.Close();
-        }
-
-        private static void CompressFile(FileStream originalFileStream)
-        {
+            originalFileStream = File.Open(Adress, FileMode.Open);
             using FileStream compressedFileStream = File.Create(Adress + ".zip");
             using var compressor = new GZipStream(compressedFileStream, CompressionMode.Compress);
             originalFileStream.CopyTo(compressor);
+
+            return originalFileStream;
         }
 
-        private static void EncryptFile(FileStream originalFileStream)
+        public static FileStream Encrypt(FileStream fileStream)
         {
-            using CryptoStream crypto = new CryptoStream(originalFileStream);
+            File.Encrypt(Adress);
+
+            return fileStream;
         }
 
         static void Main(string[] args)
