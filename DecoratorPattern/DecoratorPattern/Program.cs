@@ -8,12 +8,20 @@ namespace DecoratorPattern
     {
         public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
 
-        static void Main()
+        public static FileStream ReadFromFile(FileStream fileStream)
         {
-            using FileStream fileStream = File.Open(Adress, FileMode.Open);
             StreamReader readStream = new StreamReader(fileStream);
             readStream.ReadToEnd();
             readStream.Close();
+            return (FileStream)readStream.BaseStream;
+        }
+
+        static void Main()
+        {
+            using FileStream fileStream = File.Open(Adress, FileMode.Open);
+
+
+
         }
     }
 }
