@@ -13,15 +13,22 @@ namespace DecoratorPattern
             StreamReader readStream = new StreamReader(fileStream);
             readStream.ReadToEnd();
             readStream.Close();
-            return (FileStream)readStream.BaseStream;
+            fileStream = File.Open(Adress, FileMode.Open);
+            return fileStream;
+        }
+
+        public static FileStream WriteToFile(FileStream fileStream)
+        {
+            StreamWriter writeStream = new StreamWriter(fileStream);
+            writeStream.WriteLine("This is a test.");
+            writeStream.Close();
+            fileStream = File.Open(Adress, FileMode.Open);
+            return fileStream;
         }
 
         static void Main()
         {
             using FileStream fileStream = File.Open(Adress, FileMode.Open);
-
-
-
         }
     }
 }
