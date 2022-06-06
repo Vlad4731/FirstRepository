@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 
 namespace DecoratorPattern
@@ -22,6 +23,24 @@ namespace DecoratorPattern
             StreamWriter writeStream = new StreamWriter(fileStream);
             writeStream.WriteLine("This is a test.");
             writeStream.Close();
+            fileStream = File.Open(Adress, FileMode.Open);
+            return fileStream;
+        }
+
+        private static FileStream CompressFile(FileStream fileStream)
+        {
+            using FileStream compressedFileStream = File.Create(Adress + ".zip");
+            using var compressor = new GZipStream(compressedFileStream, CompressionMode.Compress);
+            fileStream.CopyTo(compressor);
+            fileStream = File.Open(Adress, FileMode.Open);
+            return fileStream;
+        }
+
+        private static FileStream DecompressFile(FileStream fileStream)
+        {
+            using FileStream outputFileStream = File.Create(Adress + "_unzipped.txt");
+            using var decompressor = new GZipStream(fileStream, CompressionMode.Decompress);
+            decompressor.CopyTo(outputFileStream);
             fileStream = File.Open(Adress, FileMode.Open);
             return fileStream;
         }
