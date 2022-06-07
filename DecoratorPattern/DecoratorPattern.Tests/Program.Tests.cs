@@ -7,17 +7,11 @@ namespace DecoratorPattern.Tests
     public class ProgramTests
     {
         [Fact]
-        public void TextFile_IsRead_ReturnsText()
+        public void ReadAndWriteCommands_AreValidated()
         {
-            Assert.Equal("Gazpacho",
-                File.ReadAllText(Adress));
-        }
-
-        [Fact]
-        public void TextFile_IsWritten_ReturnsNewText()
-        {
-            File.WriteAllText(Adress, "Sombrero");
-            Assert.Equal("Sombrero", File.ReadAllText(Adress));
+            Assert.True(CheckReadWriteCommand("read"));
+            Assert.True(CheckReadWriteCommand("write"));
+            Assert.False(CheckReadWriteCommand("append"));
         }
     }
 }

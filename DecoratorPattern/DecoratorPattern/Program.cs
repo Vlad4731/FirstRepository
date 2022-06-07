@@ -7,9 +7,12 @@ namespace DecoratorPattern
 {
     public class Program
     {
-        static readonly Func<string, string> Quoted = text => $"\"{text}\"";
+        public static readonly Func<string, string> Quoted = text => $"\"{text}\"";
 
         public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
+
+        public static bool CheckReadWriteCommand(string x)
+            => x == "read" || x == "write";
 
         public static FileStream ReadFromFile(FileStream fileStream)
         {
@@ -49,6 +52,11 @@ namespace DecoratorPattern
 
         private static void CheckAndPassAdress(string[] args)
         {
+            if (args.Length < 1)
+            {
+                return;
+            }
+
             if (args.Length >= 1 && File.Exists(args[0]))
             {
                 Adress = args[0];
