@@ -7,6 +7,8 @@ namespace DecoratorPattern
 {
     public class Program
     {
+        static readonly Func<string, string> Quoted = text => $"\"{text}\"";
+
         public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
 
         public static FileStream ReadFromFile(FileStream fileStream)
@@ -45,8 +47,20 @@ namespace DecoratorPattern
             return fileStream;
         }
 
-        static void Main()
+        private static void CheckAndPassAdress(string[] args)
         {
+            if (args.Length >= 1 && File.Exists(args[0]))
+            {
+                Adress = args[0];
+                return;
+            }
+
+            Console.WriteLine(Quoted(args[0]) + " is not a valid path.");
+        }
+
+        static void Main(string[] args)
+        {
+            CheckAndPassAdress(args);
             using FileStream fileStream = File.Open(Adress, FileMode.Open);
         }
     }
