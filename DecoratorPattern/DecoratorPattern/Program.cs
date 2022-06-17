@@ -9,10 +9,26 @@ namespace DecoratorPattern
     {
         public static readonly Func<string, string> Quoted = text => $"\"{text}\"";
 
+        public static readonly Func<string, bool> Encrypt = text => text.StartsWith("encrypt=");
+        public static readonly Func<string, bool> Decrypt = text => text.StartsWith("decrypt=");
+
         public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
 
         public static bool CheckReadWriteCommand(string x)
             => x == "read" || x == "write";
+
+        public static bool CheckGzipCommand(string x)
+            => x == "gzip";
+
+        public static string ReturnPassword(string x, Func<string, bool> f)
+        {
+            if (f(x))
+            {
+                return x[(nameof(f).Length - 1) ..];
+            }
+
+            return "Command error.";
+        }
 
         public static FileStream ReadFromFile(FileStream fileStream)
         {
