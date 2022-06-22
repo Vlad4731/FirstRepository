@@ -1,4 +1,4 @@
-using System.IO;
+using System;
 using Xunit;
 using static DecoratorPattern.Program;
 
@@ -9,9 +9,10 @@ namespace DecoratorPattern.Tests
         [Fact]
         public void ReadAndWriteCommands_AreValidated()
         {
-            Assert.True(CheckReadWriteCommand("read"));
-            Assert.True(CheckReadWriteCommand("write"));
-            Assert.False(CheckReadWriteCommand("append"));
+            Assert.True(Read("read"));
+            Assert.True(Write("write"));
+            Assert.False(Read("append"));
+            Assert.False(Write("append"));
         }
 
         [Fact]
@@ -26,6 +27,7 @@ namespace DecoratorPattern.Tests
         public void ReturnPassword_ReturnsPasswordOrError()
         {
             Assert.Equal("P@ssvv0rd", ReturnPassword("encrypt=P@ssvv0rd", Encrypt));
+            Assert.Throws<ArgumentException>(() => ReturnPassword("password=P@ssvv0rd", Encrypt));
         }
     }
 }

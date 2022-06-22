@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
 
 namespace DecoratorPattern
 {
@@ -11,14 +10,11 @@ namespace DecoratorPattern
 
         public static readonly Func<string, bool> Encrypt = text => text.StartsWith("encrypt=");
         public static readonly Func<string, bool> Decrypt = text => text.StartsWith("decrypt=");
+        public static readonly Func<string, bool> Read = text => text.ToLower() == "read";
+        public static readonly Func<string, bool> Write = text => text.ToLower() == "write";
+        public static readonly Func<string, bool> Gzip = text => text.ToLower() == "gzip";
 
         public static string Adress { get; set; } = @"C:\Users\Vlad\Documents\GitHub\FirstRepository\DecoratorPattern\DecoratorPattern\bin\Debug\netcoreapp3.1\test.txt";
-
-        public static bool CheckReadWriteCommand(string x)
-            => x == "read" || x == "write";
-
-        public static bool CheckGzipCommand(string x)
-            => x == "gzip";
 
         public static string ReturnPassword(string x, Func<string, bool> f)
         {
@@ -27,7 +23,7 @@ namespace DecoratorPattern
                 return x[(x.IndexOf("=") + 1) ..];
             }
 
-            return "Command error.";
+            throw new ArgumentException($"{x} is not a valid command.");
         }
 
         public static FileStream ReadFromFile(FileStream fileStream)
@@ -79,7 +75,7 @@ namespace DecoratorPattern
                 return;
             }
 
-            Console.WriteLine(Quoted(args[0]) + " is not a valid path.");
+            throw new ArgumentException(Quoted(args[0]) + " is not a valid path.");
         }
 
         static void Main(string[] args)
