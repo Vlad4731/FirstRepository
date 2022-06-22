@@ -24,7 +24,7 @@ namespace DecoratorPattern
         {
             if (f(x))
             {
-                return x[(nameof(f).Length - 1) ..];
+                return x[(x.IndexOf("=") + 1) ..];
             }
 
             return "Command error.";
