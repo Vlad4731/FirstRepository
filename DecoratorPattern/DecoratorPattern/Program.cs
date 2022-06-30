@@ -3,7 +3,7 @@ using System.IO;
 
 namespace DecoratorPattern
 {
-    public class Program
+    public static class Program
     {
         public static readonly Func<string, string> Quoted = text => $"\"{text}\"";
 
@@ -59,10 +59,27 @@ namespace DecoratorPattern
             throw new ArgumentException(Quoted(args[0]) + " is not a valid path.");
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "args")]
+        private static void ChooseService(string[] args)
+            {
+            using FileStream fileStream = File.Open(Adress, FileMode.Open);
+
+            if (args.Length < 2)
+            {
+                throw new ArgumentException("Read/write command not found.");
+            }
+
+            if (args.Length >= 3 && !Gzip(args[3]))
+            {
+                return;
+            }
+
+            throw new ArgumentException("Read/write command not found.");
+        }
+
         static void Main(string[] args)
         {
             CheckAndPassAdress(args);
-            using FileStream fileStream = File.Open(Adress, FileMode.Open);
         }
     }
 }
